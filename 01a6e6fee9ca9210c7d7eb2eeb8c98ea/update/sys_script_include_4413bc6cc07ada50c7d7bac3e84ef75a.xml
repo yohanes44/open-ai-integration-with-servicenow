@@ -1,0 +1,103 @@
+<?xml version="1.0" encoding="UTF-8"?><record_update table="sys_script_include">
+    <sys_script_include action="INSERT_OR_UPDATE">
+        <access>public</access>
+        <active>true</active>
+        <api_name>x_edpet_open_ai.MultipartREST</api_name>
+        <caller_access/>
+        <client_callable>false</client_callable>
+        <description/>
+        <mobile_callable>false</mobile_callable>
+        <name>MultipartREST</name>
+        <sandbox_callable>true</sandbox_callable>
+        <script><![CDATA[var MultipartREST = Class.create();
+MultipartREST.prototype = {
+ 
+    initialize: function (request) {
+        this.RESTAPIRequest = request;
+        this.queryParams = this.RESTAPIRequest.queryParams;
+    },
+ 
+    setResponse: function (response) {
+        // mandatory params
+        var attachmentID = this.queryParams.attachment_id.toString();
+        var boundaryValue = this.queryParams.boundary_id.toString();
+        if (attachmentID == "" || boundaryValue == "") {
+            response.setContentType('text/plain');
+            response.setStatus(500);
+            return false;
+        }
+ 
+        // optional params
+        var formName = this.queryParams.form_name.toString();
+        if (formName == "undefined" || formName == "") {
+            formName = 'file';
+        }
+ 
+        var attachmentGR = this._getAttachmentGR(attachmentID);
+        if (attachmentGR) {
+            // the loopback response is text-formatted.
+            response.setContentType('text/plain');
+            response.setStatus(200);
+ 
+            var contentType = attachmentGR.content_type.toString();
+ 
+            // start the multipart data
+            var writer = response.getStreamWriter();
+            //set the metadata for thsi data part
+            var fileName = attachmentGR.file_name.toString();
+           
+            var inputStream = new GlideSysAttachment().getContentStream(attachmentID);
+            writer.writeString("--" + boundaryValue + "\r\n");
+            writer.writeString('Content-Disposition: form-data; name="purpose"\r\n');
+            writer.writeString('\r\n');
+            writer.writeString(this.queryParams.purpose+'\r\n');
+            writer.writeString("--" + boundaryValue + "\r\n");
+            writer.writeString('Content-Disposition: form-data; name="file"; filename="' + fileName + '"\r\n');
+            writer.writeString('Content-Type: ' + contentType + '\r\n');
+            writer.writeString('\r\n');
+            writer.writeStream(inputStream);
+            writer.writeString("\r\n--" + boundaryValue + "--\r\n");
+ 
+        } else {
+            // attachment gr not found?
+            response.setContentType('text/plain');
+            response.setStatus(404);
+        }
+    },
+ 
+    _getAttachmentGR: function (attachmentSysId) {
+        var grSysAttachment = new GlideRecord("sys_attachment");
+        if (grSysAttachment.get(attachmentSysId)) {
+            return grSysAttachment;
+        }
+        return false;
+    },
+ 
+    type: 'MultipartREST'
+};
+ ]]></script>
+        <sys_class_name>sys_script_include</sys_class_name>
+        <sys_created_by>yohanes.yilma@einar.partners</sys_created_by>
+        <sys_created_on>2024-12-27 10:32:10</sys_created_on>
+        <sys_id>4413bc6cc07ada50c7d7bac3e84ef75a</sys_id>
+        <sys_mod_count>61</sys_mod_count>
+        <sys_name>MultipartREST</sys_name>
+        <sys_package display_value="Open AI" source="x_edpet_open_ai">01a6e6fee9ca9210c7d7eb2eeb8c98ea</sys_package>
+        <sys_policy>read</sys_policy>
+        <sys_scope display_value="Open AI">01a6e6fee9ca9210c7d7eb2eeb8c98ea</sys_scope>
+        <sys_update_name>sys_script_include_4413bc6cc07ada50c7d7bac3e84ef75a</sys_update_name>
+        <sys_updated_by>yohanes.yilma@einar.partners</sys_updated_by>
+        <sys_updated_on>2024-12-28 10:54:59</sys_updated_on>
+    </sys_script_include>
+    <sys_es_latest_script action="INSERT_OR_UPDATE">
+        <id>4413bc6cc07ada50c7d7bac3e84ef75a</id>
+        <sys_created_by>yohanes.yilma@einar.partners</sys_created_by>
+        <sys_created_on>2024-12-27 10:32:10</sys_created_on>
+        <sys_id>7c337ca0c0bada50c7d7bac3e84ef714</sys_id>
+        <sys_mod_count>0</sys_mod_count>
+        <sys_updated_by>yohanes.yilma@einar.partners</sys_updated_by>
+        <sys_updated_on>2024-12-27 10:32:10</sys_updated_on>
+        <table>sys_script_include</table>
+        <use_es_latest>true</use_es_latest>
+    </sys_es_latest_script>
+</record_update>

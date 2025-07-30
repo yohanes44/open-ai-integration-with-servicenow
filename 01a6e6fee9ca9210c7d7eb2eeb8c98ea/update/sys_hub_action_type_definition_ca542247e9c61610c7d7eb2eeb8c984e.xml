@@ -1,0 +1,57 @@
+<?xml version="1.0" encoding="UTF-8"?><record_update sys_domain="global" table="sys_hub_action_type_definition">
+    <sys_hub_action_type_definition action="INSERT_OR_UPDATE">
+        <access>public</access>
+        <acls/>
+        <action_status/>
+        <action_template/>
+        <active>true</active>
+        <annotation/>
+        <attributes>{labelCacheCleanUpExecuted=true}</attributes>
+        <authored_on_release_version>26000</authored_on_release_version>
+        <callable_by_client_api>false</callable_by_client_api>
+        <category display_value="">{}</category>
+        <compiler_build/>
+        <copied_from/>
+        <copied_from_name/>
+        <description/>
+        <flow_priority/>
+        <ih_action>false</ih_action>
+        <internal_name>send_attachment_to_chattgpt_api</internal_name>
+        <label_cache/>
+        <latest_snapshot/>
+        <master_snapshot/>
+        <master_snapshot_digest/>
+        <name>Send Attachment to ChattGPT API</name>
+        <natlang/>
+        <outputs/>
+        <pre_compiled>false</pre_compiled>
+        <state>draft</state>
+        <sys_class_name>sys_hub_action_type_definition</sys_class_name>
+        <sys_created_by>yohanes.yilma@einar.partners</sys_created_by>
+        <sys_created_on>2024-11-28 06:24:12</sys_created_on>
+        <sys_domain>global</sys_domain>
+        <sys_domain_path>/</sys_domain_path>
+        <sys_id>ca542247e9c61610c7d7eb2eeb8c984e</sys_id>
+        <sys_mod_count>0</sys_mod_count>
+        <sys_name>Send Attachment to ChattGPT API</sys_name>
+        <sys_overrides/>
+        <sys_package display_value="Open AI" source="x_edpet_open_ai">01a6e6fee9ca9210c7d7eb2eeb8c98ea</sys_package>
+        <sys_policy/>
+        <sys_scope display_value="Open AI">01a6e6fee9ca9210c7d7eb2eeb8c98ea</sys_scope>
+        <sys_update_name>sys_hub_action_type_definition_ca542247e9c61610c7d7eb2eeb8c984e</sys_update_name>
+        <sys_updated_by>yohanes.yilma@einar.partners</sys_updated_by>
+        <sys_updated_on>2024-11-28 06:24:12</sys_updated_on>
+        <system_level>false</system_level>
+        <type/>
+    </sys_hub_action_type_definition>
+    <sys_translated_text action="delete_multiple" query="documentkey=ca542247e9c61610c7d7eb2eeb8c984e"/>
+    <sys_variable_value action="delete_multiple" query="document_key=ca542247e9c61610c7d7eb2eeb8c984e"/>
+    <sys_hub_step_instance action="delete_multiple" query="action=ca542247e9c61610c7d7eb2eeb8c984e"/>
+    <sys_hub_action_input action="delete_multiple" query="model=ca542247e9c61610c7d7eb2eeb8c984e"/>
+    <sys_hub_action_output action="delete_multiple" query="model=ca542247e9c61610c7d7eb2eeb8c984e"/>
+    <sys_hub_pill_compound action="delete_multiple" query="attached_to=ca542247e9c61610c7d7eb2eeb8c984e"/>
+    <sys_hub_action_status_metadata action="delete_multiple" query="action_type_id=ca542247e9c61610c7d7eb2eeb8c984e"/>
+    <sys_choice action="delete_multiple" query="name=var__m_sys_hub_action_input_ca542247e9c61610c7d7eb2eeb8c984e"/>
+    <sys_choice action="delete_multiple" query="name=var__m_sys_hub_action_output_ca542247e9c61610c7d7eb2eeb8c984e"/>
+    <sys_hub_action_plan action="delete_multiple" query="action_id=ca542247e9c61610c7d7eb2eeb8c984e"/>
+</record_update>

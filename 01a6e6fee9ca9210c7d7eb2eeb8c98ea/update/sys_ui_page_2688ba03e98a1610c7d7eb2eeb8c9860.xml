@@ -1,0 +1,55 @@
+<?xml version="1.0" encoding="UTF-8"?><record_update table="sys_ui_page">
+    <sys_ui_page action="INSERT_OR_UPDATE">
+        <category>general</category>
+        <client_script><![CDATA[// WARNING: For POST requests, body is set to null by browsers.
+var data = new FormData();
+data.append("file", fileInput.files[0], "/C:/Users/DELL/Documents/Skreślenie z listy studentów_en.docx");
+ data.append("purpose", "assistants");
+
+var xhr = new XMLHttpRequest();
+xhr.withCredentials = true;
+
+xhr.addEventListener("readystatechange", function() {
+  if(this.readyState === 4) {
+    alert(this.responseText);
+  }
+});
+
+xhr.open("POST", "https://api.openai.com/v1/files");
+xhr.setRequestHeader("Authorization", "••••••");
+
+xhr.send(data);]]></client_script>
+        <description/>
+        <direct>false</direct>
+        <endpoint>x_edpet_open_ai_test.do</endpoint>
+        <html><![CDATA[<?xml version="1.0" encoding="utf-8" ?>
+<j:jelly trim="false" xmlns:j="jelly:core" xmlns:g="glide" xmlns:j2="null" xmlns:g2="null">
+
+</j:jelly>]]></html>
+        <name>test</name>
+        <processing_script/>
+        <sys_class_name>sys_ui_page</sys_class_name>
+        <sys_created_by>yohanes.yilma@einar.partners</sys_created_by>
+        <sys_created_on>2024-11-28 07:52:33</sys_created_on>
+        <sys_id>2688ba03e98a1610c7d7eb2eeb8c9860</sys_id>
+        <sys_mod_count>3</sys_mod_count>
+        <sys_name>test</sys_name>
+        <sys_package display_value="Open AI" source="x_edpet_open_ai">01a6e6fee9ca9210c7d7eb2eeb8c98ea</sys_package>
+        <sys_policy/>
+        <sys_scope display_value="Open AI">01a6e6fee9ca9210c7d7eb2eeb8c98ea</sys_scope>
+        <sys_update_name>sys_ui_page_2688ba03e98a1610c7d7eb2eeb8c9860</sys_update_name>
+        <sys_updated_by>yohanes.yilma@einar.partners</sys_updated_by>
+        <sys_updated_on>2024-11-28 08:28:53</sys_updated_on>
+    </sys_ui_page>
+    <sys_es_latest_script action="INSERT_OR_UPDATE">
+        <id>2688ba03e98a1610c7d7eb2eeb8c9860</id>
+        <sys_created_by>yohanes.yilma@einar.partners</sys_created_by>
+        <sys_created_on>2024-11-28 07:52:32</sys_created_on>
+        <sys_id>738876c3e94a1610c7d7eb2eeb8c985b</sys_id>
+        <sys_mod_count>0</sys_mod_count>
+        <sys_updated_by>yohanes.yilma@einar.partners</sys_updated_by>
+        <sys_updated_on>2024-11-28 07:52:32</sys_updated_on>
+        <table>sys_ui_page</table>
+        <use_es_latest>true</use_es_latest>
+    </sys_es_latest_script>
+</record_update>

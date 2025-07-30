@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="UTF-8"?><record_update>
+    <sys_documentation element="gpt_assistant_id" label="GPT Assistant ID" language="en" table="x_edpet_open_ai_assistant">
+        <sys_documentation action="INSERT_OR_UPDATE">
+            <element>gpt_assistant_id</element>
+            <help/>
+            <hint/>
+            <label>GPT Assistant ID</label>
+            <language>en</language>
+            <name>x_edpet_open_ai_assistant</name>
+            <plural>GPT Assistant IDs</plural>
+            <sys_class_name>sys_documentation</sys_class_name>
+            <sys_created_by>yohanes.yilma@einar.partners</sys_created_by>
+            <sys_created_on>2024-12-04 14:06:31</sys_created_on>
+            <sys_id>78b7c301e95e9250c7d7eb2eeb8c987d</sys_id>
+            <sys_mod_count>0</sys_mod_count>
+            <sys_name>GPT Assistant ID</sys_name>
+            <sys_package display_value="Open AI" source="x_edpet_open_ai">01a6e6fee9ca9210c7d7eb2eeb8c98ea</sys_package>
+            <sys_policy/>
+            <sys_scope display_value="Open AI">01a6e6fee9ca9210c7d7eb2eeb8c98ea</sys_scope>
+            <sys_update_name>sys_documentation_x_edpet_open_ai_assistant_gpt_assistant_id_en</sys_update_name>
+            <sys_updated_by>yohanes.yilma@einar.partners</sys_updated_by>
+            <sys_updated_on>2024-12-04 14:06:31</sys_updated_on>
+            <url/>
+            <url_target/>
+        </sys_documentation>
+    </sys_documentation>
+</record_update>

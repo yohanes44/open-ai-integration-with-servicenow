@@ -1,0 +1,176 @@
+<?xml version="1.0" encoding="UTF-8"?><record_update table="sys_script_include">
+    <sys_script_include action="INSERT_OR_UPDATE">
+        <access>public</access>
+        <active>true</active>
+        <api_name>x_edpet_open_ai.MultipartHelper</api_name>
+        <caller_access/>
+        <client_callable>false</client_callable>
+        <description/>
+        <mobile_callable>false</mobile_callable>
+        <name>MultipartHelper</name>
+        <sandbox_callable>true</sandbox_callable>
+        <script><![CDATA[var MultipartHelper = Class.create();
+MultipartHelper.prototype = {
+	
+	// these store the attachment we're tryign to format as a multipart request.
+	attachmentId: null,
+	attachmentGR: null,
+	
+	// the host record is where the temporary attachment is stored after it's recieved from the loopback API 
+	grHostRecord: null,
+		
+	// this is the ID of the "multipart" attachment that should be included in outgoing POST.
+	bodyAttachmentId: null,
+	
+    initialize: function() {
+		this.boundaryId = this._getBoundaryId();
+		
+    },
+	
+	// We need a record to link the temporary attachment to.
+	// (Default is the the sys_user record of the calling user)
+	// For Unifi this is likely to be the HTTPRequest record
+	setHostRecord: function( grHostRecord ) {
+		this.grHostRecord = grHostRecord;
+	},
+	// Alternatively, we could call setHostDetails( table_name, sys_id )
+	setHostDetails: function( hostTable, hostSysId ) {
+		var grHostRecord = new GlideRecord( hostTable );
+		if(grHostRecord.get(hostSysId)) {
+		   this.grHostRecord = grHostRecord;
+			return true;
+		}
+		return false;
+	},
+	
+	// When adding an attachment we need to specify two or three things
+	// - the name of the form field that the target is expecting
+	// - the sys_id of the attachment to add
+	addAttachment: function( formName, attachmentId ) {
+		
+		this.formName = formName;
+		this.attachmentId = attachmentId;
+		
+		this.attachmentGR = this._getAttachmentGR( this.attachmentId );
+		if(this.attachmentGR) {
+			
+			this.attachmentName = this.attachmentGR.file_name.toString();
+			
+			return true;
+		}
+		
+		return false;
+	},
+
+	addField: function(fieldName, fieldValue) {
+		this.fields = this.fields || [];
+		this.fields.push({ name: fieldName, value: fieldValue });
+	},
+	
+	// Generate the temporary attachment
+	createBody: function(additionalFormBody) {
+		// make sure we have already looked up the attachment
+		if(!this.attachmentGR) {
+		    gs.info("createBody test false");
+			return false;
+		}
+		
+		// // generate a message to the loopback api
+		var request = new sn_ws.RESTMessageV2();
+
+		request.setEndpoint(gs.getProperty("glide.servlet.uri") + "api/x_edpet_open_ai/multiparthelper/get");
+
+		request.setHttpMethod('GET');
+		request.setRequestHeader("Accept", "multipart/form-data");
+		
+		// set the metadata for what should be included
+		request.setQueryParameter('attachment_id', this.attachmentId);
+		request.setQueryParameter('boundary_id', this.boundaryId);
+		request.setQueryParameter('form_name', this.formName);
+
+		for (const property in additionalFormBody) {
+			if (additionalFormBody.hasOwnProperty(property)) { 
+				request.setQueryParameter(property, additionalFormBody[property]);
+			}
+		}
+
+		// we write the response back into an attachment
+		request.saveResponseBodyAsAttachment( this.grHostRecord.getTableName(), this.grHostRecord.sys_id, this.attachmentName );
+
+		var response = request.execute();
+
+		// only continue if the result was 200
+		if(response.getStatusCode() == 200) {
+			this.bodyAttachmentId = response.getResponseAttachmentSysid();
+			return true;
+		}
+		
+		return false;
+	},
+	
+	// getContentType returns the content-type string including the boundary
+	// e.g. multipart/form-data; boundary="xxxxxxxxxxxx"
+	getContentType: function() {
+		return 'multipart/form-data; boundary=' + this.boundaryId;
+	},
+	
+	// getBodyId returns the sys_id of the multipart attachment
+	getBodyId: function() {
+		return this.bodyAttachmentId;
+	},
+
+	// Once we have sent the body we can delete the temporary attachment
+	deleteBody: function() {
+		var attachment = new GlideSysAttachment();
+		attachment.deleteAttachment( this.bodyAttachmentId );
+	},
+	
+	
+	///// UTIL FUNCTIONS
+	
+	_getBoundaryId: function() {
+
+		var text = "";
+		var possible = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789";
+
+		for (var i = 0; i < 8; i++)
+			text += possible.charAt(Math.floor(Math.random() * possible.length));
+
+		return text;
+	},
+	
+	_getAttachmentGR: function( attachmentSysId ) {
+		var grSysAttachment = new GlideRecord("sys_attachment");
+		if(grSysAttachment.get( attachmentSysId )) {
+			return grSysAttachment;
+		}
+		return false;
+	},
+
+    type: 'MultipartHelper'
+};]]></script>
+        <sys_class_name>sys_script_include</sys_class_name>
+        <sys_created_by>yohanes.yilma@einar.partners</sys_created_by>
+        <sys_created_on>2024-12-27 10:31:01</sys_created_on>
+        <sys_id>85727060c0bada50c7d7bac3e84ef713</sys_id>
+        <sys_mod_count>27</sys_mod_count>
+        <sys_name>MultipartHelper</sys_name>
+        <sys_package display_value="Open AI" source="x_edpet_open_ai">01a6e6fee9ca9210c7d7eb2eeb8c98ea</sys_package>
+        <sys_policy>read</sys_policy>
+        <sys_scope display_value="Open AI">01a6e6fee9ca9210c7d7eb2eeb8c98ea</sys_scope>
+        <sys_update_name>sys_script_include_85727060c0bada50c7d7bac3e84ef713</sys_update_name>
+        <sys_updated_by>yohanes.yilma@einar.partners</sys_updated_by>
+        <sys_updated_on>2024-12-28 11:23:18</sys_updated_on>
+    </sys_script_include>
+    <sys_es_latest_script action="INSERT_OR_UPDATE">
+        <id>85727060c0bada50c7d7bac3e84ef713</id>
+        <sys_created_by>yohanes.yilma@einar.partners</sys_created_by>
+        <sys_created_on>2024-12-27 10:31:01</sys_created_on>
+        <sys_id>bbe2f060c0bada50c7d7bac3e84ef751</sys_id>
+        <sys_mod_count>0</sys_mod_count>
+        <sys_updated_by>yohanes.yilma@einar.partners</sys_updated_by>
+        <sys_updated_on>2024-12-27 10:31:01</sys_updated_on>
+        <table>sys_script_include</table>
+        <use_es_latest>true</use_es_latest>
+    </sys_es_latest_script>
+</record_update>

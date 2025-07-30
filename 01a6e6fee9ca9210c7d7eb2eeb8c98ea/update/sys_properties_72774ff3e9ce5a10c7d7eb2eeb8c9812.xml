@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="UTF-8"?><record_update table="sys_properties">
+    <sys_properties action="INSERT_OR_UPDATE">
+        <choices/>
+        <description/>
+        <ignore_cache>true</ignore_cache>
+        <is_private>false</is_private>
+        <name>x_edpet_open_ai.file_upload_boundary</name>
+        <read_roles/>
+        <suffix>file_upload_boundary</suffix>
+        <sys_class_name>sys_properties</sys_class_name>
+        <sys_created_by>yohanes.yilma@einar.partners</sys_created_by>
+        <sys_created_on>2024-11-30 16:53:35</sys_created_on>
+        <sys_id>72774ff3e9ce5a10c7d7eb2eeb8c9812</sys_id>
+        <sys_mod_count>1</sys_mod_count>
+        <sys_name>x_edpet_open_ai.file_upload_boundary</sys_name>
+        <sys_package display_value="Open AI" source="x_edpet_open_ai">01a6e6fee9ca9210c7d7eb2eeb8c98ea</sys_package>
+        <sys_policy/>
+        <sys_scope display_value="Open AI">01a6e6fee9ca9210c7d7eb2eeb8c98ea</sys_scope>
+        <sys_update_name>sys_properties_72774ff3e9ce5a10c7d7eb2eeb8c9812</sys_update_name>
+        <sys_updated_by>yohanes.yilma@einar.partners</sys_updated_by>
+        <sys_updated_on>2024-11-30 16:53:57</sys_updated_on>
+        <type>string</type>
+        <value>----WebKitFormBoundary7MA4YWxkTrZu0gW</value>
+        <write_roles/>
+    </sys_properties>
+    <sys_translated_text action="delete_multiple" query="documentkey=72774ff3e9ce5a10c7d7eb2eeb8c9812"/>
+</record_update>

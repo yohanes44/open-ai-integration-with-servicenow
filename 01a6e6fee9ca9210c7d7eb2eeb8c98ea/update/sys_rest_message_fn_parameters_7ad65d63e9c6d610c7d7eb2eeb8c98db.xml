@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="UTF-8"?><record_update table="sys_rest_message_fn_parameters">
+    <sys_rest_message_fn_parameters action="INSERT_OR_UPDATE">
+        <name>model</name>
+        <rest_message_function display_value="Modify assistant">4b06996fe986d610c7d7eb2eeb8c984a</rest_message_function>
+        <sys_class_name>sys_rest_message_fn_parameters</sys_class_name>
+        <sys_created_by>yohanes.yilma@einar.partners</sys_created_by>
+        <sys_created_on>2024-11-29 14:02:37</sys_created_on>
+        <sys_id>7ad65d63e9c6d610c7d7eb2eeb8c98db</sys_id>
+        <sys_mod_count>2</sys_mod_count>
+        <sys_name>model</sys_name>
+        <sys_package display_value="Open AI" source="x_edpet_open_ai">01a6e6fee9ca9210c7d7eb2eeb8c98ea</sys_package>
+        <sys_policy/>
+        <sys_scope display_value="Open AI">01a6e6fee9ca9210c7d7eb2eeb8c98ea</sys_scope>
+        <sys_update_name>sys_rest_message_fn_parameters_7ad65d63e9c6d610c7d7eb2eeb8c98db</sys_update_name>
+        <sys_updated_by>yohanes.yilma@einar.partners</sys_updated_by>
+        <sys_updated_on>2024-11-29 14:08:47</sys_updated_on>
+        <type>string</type>
+        <value>gpt-4o</value>
+    </sys_rest_message_fn_parameters>
+</record_update>

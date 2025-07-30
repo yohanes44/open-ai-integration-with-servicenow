@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="UTF-8"?><record_update table="sys_rest_message_fn_parameters">
+    <sys_rest_message_fn_parameters action="INSERT_OR_UPDATE">
+        <name>assistant_id</name>
+        <rest_message_function display_value="Delete assistant">887995a7e9c6d610c7d7eb2eeb8c9847</rest_message_function>
+        <sys_class_name>sys_rest_message_fn_parameters</sys_class_name>
+        <sys_created_by>yohanes.yilma@einar.partners</sys_created_by>
+        <sys_created_on>2024-11-29 14:15:31</sys_created_on>
+        <sys_id>b7c991e7e9c6d610c7d7eb2eeb8c980b</sys_id>
+        <sys_mod_count>13</sys_mod_count>
+        <sys_name>assistant_id</sys_name>
+        <sys_package display_value="Open AI" source="x_edpet_open_ai">01a6e6fee9ca9210c7d7eb2eeb8c98ea</sys_package>
+        <sys_policy/>
+        <sys_scope display_value="Open AI">01a6e6fee9ca9210c7d7eb2eeb8c98ea</sys_scope>
+        <sys_update_name>sys_rest_message_fn_parameters_b7c991e7e9c6d610c7d7eb2eeb8c980b</sys_update_name>
+        <sys_updated_by>yohanes.yilma@einar.partners</sys_updated_by>
+        <sys_updated_on>2024-11-30 17:16:48</sys_updated_on>
+        <type>string</type>
+        <value>asst_K12cYfrZL9fYs4lIAmPqdtN1</value>
+    </sys_rest_message_fn_parameters>
+</record_update>

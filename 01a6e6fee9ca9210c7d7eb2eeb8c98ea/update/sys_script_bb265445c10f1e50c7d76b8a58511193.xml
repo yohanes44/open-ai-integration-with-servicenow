@@ -1,0 +1,74 @@
+<?xml version="1.0" encoding="UTF-8"?><record_update sys_domain="global" table="sys_script">
+    <sys_script action="INSERT_OR_UPDATE">
+        <abort_action>false</abort_action>
+        <access>package_private</access>
+        <action_delete>false</action_delete>
+        <action_insert>false</action_insert>
+        <action_query>false</action_query>
+        <action_update>true</action_update>
+        <active>true</active>
+        <add_message>false</add_message>
+        <advanced>true</advanced>
+        <change_fields>false</change_fields>
+        <client_callable>false</client_callable>
+        <collection>x_edpet_open_ai_intent</collection>
+        <condition/>
+        <description/>
+        <execute_function>false</execute_function>
+        <filter_condition table="x_edpet_open_ai_intent">activeVALCHANGES^EQ<item endquery="false" field="active" goto="false" newquery="false" operator="VALCHANGES" or="false" value=""/>
+            <item endquery="true" field="" goto="false" newquery="false" operator="=" or="false" value=""/>
+        </filter_condition>
+        <is_rest>false</is_rest>
+        <message/>
+        <name>set active flag</name>
+        <order>100</order>
+        <priority>100</priority>
+        <rest_method/>
+        <rest_method_text/>
+        <rest_service/>
+        <rest_service_text/>
+        <rest_variables/>
+        <role_conditions/>
+        <script><![CDATA[(function executeRule(current, previous /*null when async*/) {
+
+	// Add your code here
+
+	//For an intent to be set to active, the assistant must also be set to active. other wise the update will be aborted
+
+	if (current.active == true && current.assistant.active == false) {
+		gs.addErrorMessage("The associated assistant must be active to set the current intent as active");
+		current.setAbortAction(true);
+	}
+
+})(current, previous);]]></script>
+        <sys_class_name>sys_script</sys_class_name>
+        <sys_created_by>yohanes.yilma@einar.partners</sys_created_by>
+        <sys_created_on>2025-01-10 08:09:09</sys_created_on>
+        <sys_domain>global</sys_domain>
+        <sys_domain_path>/</sys_domain_path>
+        <sys_id>bb265445c10f1e50c7d76b8a58511193</sys_id>
+        <sys_mod_count>2</sys_mod_count>
+        <sys_name>set active flag</sys_name>
+        <sys_overrides/>
+        <sys_package display_value="Open AI" source="x_edpet_open_ai">01a6e6fee9ca9210c7d7eb2eeb8c98ea</sys_package>
+        <sys_policy/>
+        <sys_scope display_value="Open AI">01a6e6fee9ca9210c7d7eb2eeb8c98ea</sys_scope>
+        <sys_update_name>sys_script_bb265445c10f1e50c7d76b8a58511193</sys_update_name>
+        <sys_updated_by>yohanes.yilma@einar.partners</sys_updated_by>
+        <sys_updated_on>2025-01-10 08:17:48</sys_updated_on>
+        <template/>
+        <when>before</when>
+    </sys_script>
+    <sys_translated_text action="delete_multiple" query="documentkey=bb265445c10f1e50c7d76b8a58511193"/>
+    <sys_es_latest_script action="INSERT_OR_UPDATE">
+        <id>bb265445c10f1e50c7d76b8a58511193</id>
+        <sys_created_by>yohanes.yilma@einar.partners</sys_created_by>
+        <sys_created_on>2025-01-10 08:09:09</sys_created_on>
+        <sys_id>26b810c5c10f1e50c7d76b8a585111fc</sys_id>
+        <sys_mod_count>0</sys_mod_count>
+        <sys_updated_by>yohanes.yilma@einar.partners</sys_updated_by>
+        <sys_updated_on>2025-01-10 08:09:09</sys_updated_on>
+        <table>sys_script</table>
+        <use_es_latest>true</use_es_latest>
+    </sys_es_latest_script>
+</record_update>

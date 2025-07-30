@@ -1,0 +1,141 @@
+<?xml version="1.0" encoding="UTF-8"?><record_update>
+    <sys_ui_section caption="" section_id="316a25b0e9961250c7d7eb2eeb8c98dc" sys_domain="global" table="x_edpet_open_ai_assistant" version="3" view="">
+        <sys_ui_element action="INSERT_OR_UPDATE">
+            <element>name</element>
+            <position>0</position>
+            <sys_created_by>yohanes.yilma@einar.partners</sys_created_by>
+            <sys_created_on>2025-01-10 08:35:51</sys_created_on>
+            <sys_id>e1de5485c14f1e50c7d76b8a585111ed</sys_id>
+            <sys_mod_count>0</sys_mod_count>
+            <sys_ui_formatter/>
+            <sys_ui_section caption="NULL" display_value="" name="x_edpet_open_ai_assistant" sys_domain="global" view="Default view">316a25b0e9961250c7d7eb2eeb8c98dc</sys_ui_section>
+            <sys_updated_by>yohanes.yilma@einar.partners</sys_updated_by>
+            <sys_updated_on>2025-01-10 08:35:51</sys_updated_on>
+            <sys_user/>
+            <type/>
+        </sys_ui_element>
+        <sys_ui_element action="INSERT_OR_UPDATE">
+            <element>.split</element>
+            <position>1</position>
+            <sys_created_by>yohanes.yilma@einar.partners</sys_created_by>
+            <sys_created_on>2025-01-10 08:35:51</sys_created_on>
+            <sys_id>adde5485c14f1e50c7d76b8a585111ed</sys_id>
+            <sys_mod_count>0</sys_mod_count>
+            <sys_ui_formatter/>
+            <sys_ui_section caption="NULL" display_value="" name="x_edpet_open_ai_assistant" sys_domain="global" view="Default view">316a25b0e9961250c7d7eb2eeb8c98dc</sys_ui_section>
+            <sys_updated_by>yohanes.yilma@einar.partners</sys_updated_by>
+            <sys_updated_on>2025-01-10 08:35:51</sys_updated_on>
+            <sys_user/>
+            <type>.split</type>
+        </sys_ui_element>
+        <sys_ui_element action="INSERT_OR_UPDATE">
+            <element>gpt_assistant_id</element>
+            <position>2</position>
+            <sys_created_by>yohanes.yilma@einar.partners</sys_created_by>
+            <sys_created_on>2025-01-10 08:35:51</sys_created_on>
+            <sys_id>25de5485c14f1e50c7d76b8a585111ee</sys_id>
+            <sys_mod_count>0</sys_mod_count>
+            <sys_ui_formatter/>
+            <sys_ui_section caption="NULL" display_value="" name="x_edpet_open_ai_assistant" sys_domain="global" view="Default view">316a25b0e9961250c7d7eb2eeb8c98dc</sys_ui_section>
+            <sys_updated_by>yohanes.yilma@einar.partners</sys_updated_by>
+            <sys_updated_on>2025-01-10 08:35:51</sys_updated_on>
+            <sys_user/>
+            <type/>
+        </sys_ui_element>
+        <sys_ui_element action="INSERT_OR_UPDATE">
+            <element>model</element>
+            <position>3</position>
+            <sys_created_by>yohanes.yilma@einar.partners</sys_created_by>
+            <sys_created_on>2025-01-10 08:35:51</sys_created_on>
+            <sys_id>a9de5485c14f1e50c7d76b8a585111ee</sys_id>
+            <sys_mod_count>0</sys_mod_count>
+            <sys_ui_formatter/>
+            <sys_ui_section caption="NULL" display_value="" name="x_edpet_open_ai_assistant" sys_domain="global" view="Default view">316a25b0e9961250c7d7eb2eeb8c98dc</sys_ui_section>
+            <sys_updated_by>yohanes.yilma@einar.partners</sys_updated_by>
+            <sys_updated_on>2025-01-10 08:35:51</sys_updated_on>
+            <sys_user/>
+            <type/>
+        </sys_ui_element>
+        <sys_ui_element action="INSERT_OR_UPDATE">
+            <element>temperature</element>
+            <position>4</position>
+            <sys_created_by>yohanes.yilma@einar.partners</sys_created_by>
+            <sys_created_on>2025-01-10 08:35:51</sys_created_on>
+            <sys_id>21de5485c14f1e50c7d76b8a585111ef</sys_id>
+            <sys_mod_count>0</sys_mod_count>
+            <sys_ui_formatter/>
+            <sys_ui_section caption="NULL" display_value="" name="x_edpet_open_ai_assistant" sys_domain="global" view="Default view">316a25b0e9961250c7d7eb2eeb8c98dc</sys_ui_section>
+            <sys_updated_by>yohanes.yilma@einar.partners</sys_updated_by>
+            <sys_updated_on>2025-01-10 08:35:51</sys_updated_on>
+            <sys_user/>
+            <type/>
+        </sys_ui_element>
+        <sys_ui_element action="INSERT_OR_UPDATE">
+            <element>active</element>
+            <position>5</position>
+            <sys_created_by>yohanes.yilma@einar.partners</sys_created_by>
+            <sys_created_on>2025-01-10 08:35:51</sys_created_on>
+            <sys_id>a5de5485c14f1e50c7d76b8a585111ef</sys_id>
+            <sys_mod_count>0</sys_mod_count>
+            <sys_ui_formatter/>
+            <sys_ui_section caption="NULL" display_value="" name="x_edpet_open_ai_assistant" sys_domain="global" view="Default view">316a25b0e9961250c7d7eb2eeb8c98dc</sys_ui_section>
+            <sys_updated_by>yohanes.yilma@einar.partners</sys_updated_by>
+            <sys_updated_on>2025-01-10 08:35:51</sys_updated_on>
+            <sys_user/>
+            <type/>
+        </sys_ui_element>
+        <sys_ui_element action="INSERT_OR_UPDATE">
+            <element>.end_split</element>
+            <position>6</position>
+            <sys_created_by>yohanes.yilma@einar.partners</sys_created_by>
+            <sys_created_on>2025-01-10 08:35:51</sys_created_on>
+            <sys_id>2dde5485c14f1e50c7d76b8a585111ef</sys_id>
+            <sys_mod_count>0</sys_mod_count>
+            <sys_ui_formatter/>
+            <sys_ui_section caption="NULL" display_value="" name="x_edpet_open_ai_assistant" sys_domain="global" view="Default view">316a25b0e9961250c7d7eb2eeb8c98dc</sys_ui_section>
+            <sys_updated_by>yohanes.yilma@einar.partners</sys_updated_by>
+            <sys_updated_on>2025-01-10 08:35:51</sys_updated_on>
+            <sys_user/>
+            <type>.end_split</type>
+        </sys_ui_element>
+        <sys_ui_element action="INSERT_OR_UPDATE">
+            <element>instructions</element>
+            <position>7</position>
+            <sys_created_by>yohanes.yilma@einar.partners</sys_created_by>
+            <sys_created_on>2025-01-10 08:35:51</sys_created_on>
+            <sys_id>a1de5485c14f1e50c7d76b8a585111f0</sys_id>
+            <sys_mod_count>0</sys_mod_count>
+            <sys_ui_formatter/>
+            <sys_ui_section caption="NULL" display_value="" name="x_edpet_open_ai_assistant" sys_domain="global" view="Default view">316a25b0e9961250c7d7eb2eeb8c98dc</sys_ui_section>
+            <sys_updated_by>yohanes.yilma@einar.partners</sys_updated_by>
+            <sys_updated_on>2025-01-10 08:35:51</sys_updated_on>
+            <sys_user/>
+            <type/>
+        </sys_ui_element>
+        <sys_ui_section action="INSERT_OR_UPDATE">
+            <caption/>
+            <header>false</header>
+            <name>x_edpet_open_ai_assistant</name>
+            <roles/>
+            <sys_class_name>sys_ui_section</sys_class_name>
+            <sys_created_by>yohanes.yilma@einar.partners</sys_created_by>
+            <sys_created_on>2024-12-03 12:40:25</sys_created_on>
+            <sys_domain>global</sys_domain>
+            <sys_domain_path>/</sys_domain_path>
+            <sys_id>316a25b0e9961250c7d7eb2eeb8c98dc</sys_id>
+            <sys_mod_count>0</sys_mod_count>
+            <sys_name>x_edpet_open_ai_assistant</sys_name>
+            <sys_overrides/>
+            <sys_package display_value="Open AI" source="x_edpet_open_ai">01a6e6fee9ca9210c7d7eb2eeb8c98ea</sys_package>
+            <sys_policy/>
+            <sys_scope display_value="Open AI">01a6e6fee9ca9210c7d7eb2eeb8c98ea</sys_scope>
+            <sys_update_name>sys_ui_section_316a25b0e9961250c7d7eb2eeb8c98dc</sys_update_name>
+            <sys_updated_by>yohanes.yilma@einar.partners</sys_updated_by>
+            <sys_updated_on>2024-12-03 12:40:25</sys_updated_on>
+            <sys_user/>
+            <title>true</title>
+            <view display_value="Default view" name="NULL">Default view</view>
+            <view_name/>
+        </sys_ui_section>
+    </sys_ui_section>
+</record_update>

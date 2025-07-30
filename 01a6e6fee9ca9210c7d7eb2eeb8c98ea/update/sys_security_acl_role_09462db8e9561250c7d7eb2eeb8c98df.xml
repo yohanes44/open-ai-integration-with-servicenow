@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="UTF-8"?><record_update table="sys_security_acl_role">
+    <sys_security_acl_role action="INSERT_OR_UPDATE">
+        <sys_class_name>sys_security_acl_role</sys_class_name>
+        <sys_created_by>yohanes.yilma@einar.partners</sys_created_by>
+        <sys_created_on>2024-12-03 12:22:21</sys_created_on>
+        <sys_id>09462db8e9561250c7d7eb2eeb8c98df</sys_id>
+        <sys_mod_count>0</sys_mod_count>
+        <sys_name>x_edpet_open_ai_assistant.x_edpet_open_ai.admin</sys_name>
+        <sys_package display_value="Open AI" source="x_edpet_open_ai">01a6e6fee9ca9210c7d7eb2eeb8c98ea</sys_package>
+        <sys_policy/>
+        <sys_scope display_value="Open AI">01a6e6fee9ca9210c7d7eb2eeb8c98ea</sys_scope>
+        <sys_security_acl display_value="x_edpet_open_ai_assistant">784625b8e9561250c7d7eb2eeb8c984e</sys_security_acl>
+        <sys_update_name>sys_security_acl_role_09462db8e9561250c7d7eb2eeb8c98df</sys_update_name>
+        <sys_updated_by>yohanes.yilma@einar.partners</sys_updated_by>
+        <sys_updated_on>2024-12-03 12:22:21</sys_updated_on>
+        <sys_user_role display_value="x_edpet_open_ai.admin" name="x_edpet_open_ai.admin">7c4625b8e9561250c7d7eb2eeb8c9845</sys_user_role>
+    </sys_security_acl_role>
+</record_update>
