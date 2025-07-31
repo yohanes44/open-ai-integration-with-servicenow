@@ -6,15 +6,15 @@
         <sys_created_by>yohanes.yilma@einar.partners</sys_created_by>
         <sys_created_on>2024-11-27 12:02:32</sys_created_on>
         <sys_id>d4382af2e90e9210c7d7eb2eeb8c9816</sys_id>
-        <sys_mod_count>1</sys_mod_count>
+        <sys_mod_count>2</sys_mod_count>
         <sys_name>bearer_token</sys_name>
         <sys_package display_value="Open AI" source="x_edpet_open_ai">01a6e6fee9ca9210c7d7eb2eeb8c98ea</sys_package>
         <sys_policy/>
         <sys_scope display_value="Open AI">01a6e6fee9ca9210c7d7eb2eeb8c98ea</sys_scope>
         <sys_update_name>sys_rest_message_fn_parameters_d4382af2e90e9210c7d7eb2eeb8c9816</sys_update_name>
-        <sys_updated_by>yohanes.yilma@einar.partners</sys_updated_by>
-        <sys_updated_on>2024-11-27 12:02:46</sys_updated_on>
+        <sys_updated_by>admin</sys_updated_by>
+        <sys_updated_on>2025-07-31 17:13:06</sys_updated_on>
         <type>string</type>
-        <value>sk-proj-BSPDLluTemI7ZtPLI8GUT3BlbkFJcQB8StNr1CIirpgFQ0Eb</value>
+        <value/>
     </sys_rest_message_fn_parameters>
 </record_update>

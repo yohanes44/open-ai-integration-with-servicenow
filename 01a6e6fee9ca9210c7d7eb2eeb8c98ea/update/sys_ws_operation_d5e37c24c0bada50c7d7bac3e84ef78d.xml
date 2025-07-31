@@ -38,15 +38,4 @@
         <web_service_definition display_value="MultipartHelper">14937424c0bada50c7d7bac3e84ef706</web_service_definition>
         <web_service_version/>
     </sys_ws_operation>
-    <sys_es_latest_script action="INSERT_OR_UPDATE">
-        <id>d5e37c24c0bada50c7d7bac3e84ef78d</id>
-        <sys_created_by>yohanes.yilma@einar.partners</sys_created_by>
-        <sys_created_on>2024-12-27 10:36:08</sys_created_on>
-        <sys_id>f2147c24c0bada50c7d7bac3e84ef793</sys_id>
-        <sys_mod_count>0</sys_mod_count>
-        <sys_updated_by>yohanes.yilma@einar.partners</sys_updated_by>
-        <sys_updated_on>2024-12-27 10:36:08</sys_updated_on>
-        <table>sys_ws_operation</table>
-        <use_es_latest>true</use_es_latest>
-    </sys_es_latest_script>
 </record_update>

@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="UTF-8"?><database>
+    <element db_object_id="5f1b6df0e9961250c7d7eb2eeb8c9878" label="Intent" max_length="40" name="x_edpet_open_ai_intent" type="collection">
+        <element attributes="edge_encryption_enabled=true" label="Active" max_length="40" name="active" type="boolean"/>
+        <element attributes="edge_encryption_enabled=true,encode_utf8=false,readonly_clickthrough=true" label="Assistant" mandatory="true" max_length="32" name="assistant" reference="x_edpet_open_ai_assistant" type="reference"/>
+        <element display="true" label="Name" max_length="254" name="name" type="string"/>
+        <element label="System intent" mandatory="true" max_length="256000" name="system_intent" type="string"/>
+        <element label="User intent" max_length="256000" name="user_intent" type="string"/>
+        <element attributes="edge_encryption_enabled=true" label="User intent required" max_length="40" name="user_intent_required" type="boolean"/>
+        <index name="index">
+            <element name="assistant"/>
+        </index>
+    </element>
+</database>

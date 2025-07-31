@@ -52,15 +52,4 @@
         <when>before</when>
     </sys_script>
     <sys_translated_text action="delete_multiple" query="documentkey=9f7b83c5e95e9250c7d7eb2eeb8c98f8"/>
-    <sys_es_latest_script action="INSERT_OR_UPDATE">
-        <id>9f7b83c5e95e9250c7d7eb2eeb8c98f8</id>
-        <sys_created_by>yohanes.yilma@einar.partners</sys_created_by>
-        <sys_created_on>2024-12-04 14:24:00</sys_created_on>
-        <sys_id>e4bb4b85e95e9250c7d7eb2eeb8c9881</sys_id>
-        <sys_mod_count>0</sys_mod_count>
-        <sys_updated_by>yohanes.yilma@einar.partners</sys_updated_by>
-        <sys_updated_on>2024-12-04 14:24:00</sys_updated_on>
-        <table>sys_script</table>
-        <use_es_latest>true</use_es_latest>
-    </sys_es_latest_script>
 </record_update>

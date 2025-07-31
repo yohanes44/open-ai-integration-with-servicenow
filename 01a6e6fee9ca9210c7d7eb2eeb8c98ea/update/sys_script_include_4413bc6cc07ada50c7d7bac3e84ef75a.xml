@@ -6,9 +6,7 @@
         <caller_access/>
         <client_callable>false</client_callable>
         <description/>
-        <mobile_callable>false</mobile_callable>
         <name>MultipartREST</name>
-        <sandbox_callable>true</sandbox_callable>
         <script><![CDATA[var MultipartREST = Class.create();
 MultipartREST.prototype = {
  
@@ -89,15 +87,4 @@ MultipartREST.prototype = {
         <sys_updated_by>yohanes.yilma@einar.partners</sys_updated_by>
         <sys_updated_on>2024-12-28 10:54:59</sys_updated_on>
     </sys_script_include>
-    <sys_es_latest_script action="INSERT_OR_UPDATE">
-        <id>4413bc6cc07ada50c7d7bac3e84ef75a</id>
-        <sys_created_by>yohanes.yilma@einar.partners</sys_created_by>
-        <sys_created_on>2024-12-27 10:32:10</sys_created_on>
-        <sys_id>7c337ca0c0bada50c7d7bac3e84ef714</sys_id>
-        <sys_mod_count>0</sys_mod_count>
-        <sys_updated_by>yohanes.yilma@einar.partners</sys_updated_by>
-        <sys_updated_on>2024-12-27 10:32:10</sys_updated_on>
-        <table>sys_script_include</table>
-        <use_es_latest>true</use_es_latest>
-    </sys_es_latest_script>
 </record_update>

@@ -41,15 +41,4 @@ xhr.send(data);]]></client_script>
         <sys_updated_by>yohanes.yilma@einar.partners</sys_updated_by>
         <sys_updated_on>2024-11-28 08:28:53</sys_updated_on>
     </sys_ui_page>
-    <sys_es_latest_script action="INSERT_OR_UPDATE">
-        <id>2688ba03e98a1610c7d7eb2eeb8c9860</id>
-        <sys_created_by>yohanes.yilma@einar.partners</sys_created_by>
-        <sys_created_on>2024-11-28 07:52:32</sys_created_on>
-        <sys_id>738876c3e94a1610c7d7eb2eeb8c985b</sys_id>
-        <sys_mod_count>0</sys_mod_count>
-        <sys_updated_by>yohanes.yilma@einar.partners</sys_updated_by>
-        <sys_updated_on>2024-11-28 07:52:32</sys_updated_on>
-        <table>sys_ui_page</table>
-        <use_es_latest>true</use_es_latest>
-    </sys_es_latest_script>
 </record_update>
