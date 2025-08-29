@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="UTF-8"?><database>
+    <element db_object_id="fad44cde8353221042565f45feaad3ca" extends="sys_import_set_row" label="Open AI Imp Assistants" max_length="40" name="x_edpet_open_ai_imp_assistants" type="collection">
+        <element attributes="edge_encryption_enabled=true,import_attribute_name=metadata" label="metadata" max_length="40" name="u_metadata" type="string"/>
+        <element attributes="edge_encryption_enabled=true,import_attribute_name=tool_resources" label="tool_resources" max_length="119" name="u_tool_resources" type="string"/>
+        <element attributes="edge_encryption_enabled=true,import_attribute_name=response_format" label="response_format" max_length="40" name="u_response_format" type="string"/>
+        <element attributes="edge_encryption_enabled=true,import_attribute_name=object" label="object" max_length="40" name="u_object" type="string"/>
+        <element attributes="edge_encryption_enabled=true,import_attribute_name=created_at" label="created_at" max_length="40" name="u_created_at" type="string"/>
+        <element attributes="edge_encryption_enabled=true,import_attribute_name=name" label="name" max_length="52" name="u_name" type="string"/>
+        <element label="id" max_length="254" name="id" type="string"/>
+        <element attributes="edge_encryption_enabled=true,import_attribute_name=instructions" label="instructions" max_length="344" name="u_instructions" type="string"/>
+        <element attributes="edge_encryption_enabled=true,import_attribute_name=description" label="description" max_length="40" name="u_description" type="string"/>
+        <element attributes="edge_encryption_enabled=true,import_attribute_name=temperature" label="temperature" max_length="40" name="u_temperature" type="string"/>
+        <element attributes="edge_encryption_enabled=true,import_attribute_name=model" label="model" max_length="40" name="u_model" type="string"/>
+        <element attributes="edge_encryption_enabled=true,import_attribute_name=top_p" label="top_p" max_length="40" name="u_top_p" type="string"/>
+        <element attributes="edge_encryption_enabled=true,import_attribute_name=tools" label="tools" max_length="40" name="u_tools" type="string"/>
+        <element attributes="edge_encryption_enabled=true,import_attribute_name=id" label="id" max_length="40" name="u_id" type="string"/>
+        <element attributes="edge_encryption_enabled=true,import_attribute_name=reasoning_effort" label="reasoning_effort" max_length="40" name="u_reasoning_effort" type="string"/>
+    </element>
+</database>

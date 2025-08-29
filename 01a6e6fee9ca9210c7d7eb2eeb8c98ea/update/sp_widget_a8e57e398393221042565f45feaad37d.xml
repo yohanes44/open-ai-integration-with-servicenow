@@ -1,0 +1,246 @@
+<?xml version="1.0" encoding="UTF-8"?><record_update table="sp_widget">
+    <sp_widget action="INSERT_OR_UPDATE">
+        <category>custom</category>
+        <client_script><![CDATA[api.controller = function ($scope) {
+    var c = this;
+
+    $scope.prompt = "";
+    $scope.message = c.data.messages;
+    $scope.output = "";
+
+    $scope.addAssistantMessage = function (role, msg) {
+        $scope.message.push({ "role": role, "content": msg });
+    };
+
+    $scope.streamResponse = function () {
+        if ($scope.prompt.trim() === "") return;
+
+        $scope.addAssistantMessage("user", $scope.prompt);
+        $scope.prompt = ""; // Clear input field
+        $scope.output = ""; // Reset output
+
+        var apiKey = "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";
+
+        fetch("https://api.openai.com/v1/threads/runs", {
+            method: "POST",
+            headers: {
+                "OpenAI-Beta": "assistants=v2",
+                "Content-Type": "application/json",
+                "Authorization": "Bearer " + apiKey
+            },
+            body: angular.toJson({
+                "assistant_id": c.data.assistantId,
+                "stream": true,
+                "thread": {
+                    "messages": $scope.message
+                },
+                "model": "gpt-4o",
+                "tools": [{"type": "file_search"},{"type": "code_interpreter"}],
+                "instructions": "overdirded Instruction text"
+            })
+        }).then(function (response) {
+            var reader = response.body.getReader();
+            var decoder = new TextDecoder("utf-8");
+
+            function readChunk() {
+                return reader.read().then(function (result) {
+                    if (result.done) {
+                        $scope.$apply(function () {
+                            if ($scope.output) {
+                                $scope.addAssistantMessage("assistant", $scope.output);
+                                $scope.output = "";
+                            }
+                        });
+                        return;
+                    }
+
+                    var chunk = decoder.decode(result.value, {stream: true});
+                    var lines = chunk.split("\n").filter(function (line) {
+                        return line.trim() !== "";
+                    });
+
+                    lines.forEach(function (line) {
+                        if (line.startsWith("data: ")) {
+                            var data = line.replace(/^data: /, "").trim();
+                            try {
+                                var parsed = JSON.parse(data);
+
+                                if (parsed.delta && parsed.delta.content) {
+                                    var content = parsed.delta.content[0].text.value || "";
+                                    $scope.$apply(function () {
+                                        $scope.output += content;
+                                    });
+                                }
+                            } catch (e) {
+                                console.error("JSON parsing error: ", e);
+                            }
+                        }
+                    });
+
+                    return readChunk();
+                });
+            }
+
+            return readChunk();
+        }).catch(function (error) {
+            alert("ERROR == " + error);
+            console.error("Streaming error: ", error);
+        });
+    };
+};]]></client_script>
+        <controller_as>c</controller_as>
+        <css>.chat-container {&#13;
+  width: 100%;&#13;
+  max-width: 800px;&#13;
+  margin: 0 auto;&#13;
+  display: flex;&#13;
+  flex-direction: column;&#13;
+  height: 80vh;&#13;
+  border: 1px solid #ccc;&#13;
+  border-radius: 8px;&#13;
+  overflow: hidden;&#13;
+  background: #f5f5f5;&#13;
+}&#13;
+&#13;
+.chat-messages {&#13;
+  flex: 1;&#13;
+  padding: 16px;&#13;
+  overflow-y: auto;&#13;
+}&#13;
+&#13;
+.chat-message {&#13;
+  margin-bottom: 10px;&#13;
+  display: flex;&#13;
+  align-items: flex-start;&#13;
+}&#13;
+&#13;
+.user-message {&#13;
+  align-self: flex-end;&#13;
+  background: #0084ff;&#13;
+  color: white;&#13;
+  border-radius: 16px;&#13;
+  margin-left: auto;&#13;
+  padding: 8px 12px;&#13;
+  max-width: 60%;&#13;
+}&#13;
+&#13;
+.assistant-message {&#13;
+  background: #e4e6eb;&#13;
+  border-radius: 16px;&#13;
+  padding: 8px 12px;&#13;
+  max-width: 60%;&#13;
+}&#13;
+&#13;
+.message-content {&#13;
+  font-size: 14px;&#13;
+  line-height: 1.4;&#13;
+}&#13;
+&#13;
+.chat-input-form {&#13;
+  display: flex;&#13;
+  border-top: 1px solid #ccc;&#13;
+  background: white;&#13;
+}&#13;
+&#13;
+.chat-input {&#13;
+  flex: 1;&#13;
+  padding: 10px 12px;&#13;
+  border: none;&#13;
+  outline: none;&#13;
+  font-size: 16px;&#13;
+}&#13;
+&#13;
+.send-button {&#13;
+  background: #0084ff;&#13;
+  border: none;&#13;
+  color: white;&#13;
+  padding: 10px 16px;&#13;
+  cursor: pointer;&#13;
+  transition: background 0.3s;&#13;
+}&#13;
+&#13;
+.send-button:hover {&#13;
+  background: #006bbf;&#13;
+}</css>
+        <data_table>sp_instance</data_table>
+        <demo_data/>
+        <description/>
+        <docs/>
+        <field_list/>
+        <has_preview>false</has_preview>
+        <id>wid</id>
+        <internal>false</internal>
+        <link><![CDATA[function link(scope, element, attrs, controller) {  }]]></link>
+        <name>ChattGPT Thread 2</name>
+        <option_schema/>
+        <public>false</public>
+        <roles/>
+        <script><![CDATA[(function() {
+  /* populate the 'data' object */
+  /* e.g., data.table = $sp.getValue('table'); */
+
+  data.threadId = $sp.getParameter('threadId') || "";
+  data.assistantId = null;
+
+  data.messages = [];
+
+  if(data.threadId != ""){
+    var openAIUtility = new x_edpet_open_ai.OpenAIUtility();
+    var thread_messages = openAIUtility.listThreadMessages(data.threadId);
+    data.assistantId = thread_messages[0].assistant_id;
+    
+    thread_messages.forEach(function(msg){
+          data.messages.push(
+            { "role": msg.role, "content": msg.content[0].text.value }
+          );
+    });
+
+  }
+
+
+})();]]></script>
+        <servicenow>false</servicenow>
+        <sys_class_name>sp_widget</sys_class_name>
+        <sys_created_by>yohanes.yilma</sys_created_by>
+        <sys_created_on>2025-08-12 09:58:05</sys_created_on>
+        <sys_id>a8e57e398393221042565f45feaad37d</sys_id>
+        <sys_mod_count>78</sys_mod_count>
+        <sys_name>ChattGPT Thread 2</sys_name>
+        <sys_package display_value="Open AI" source="x_edpet_open_ai">01a6e6fee9ca9210c7d7eb2eeb8c98ea</sys_package>
+        <sys_policy/>
+        <sys_scope display_value="Open AI">01a6e6fee9ca9210c7d7eb2eeb8c98ea</sys_scope>
+        <sys_update_name>sp_widget_a8e57e398393221042565f45feaad37d</sys_update_name>
+        <sys_updated_by>yohanes.yilma</sys_updated_by>
+        <sys_updated_on>2025-08-13 12:35:16</sys_updated_on>
+        <template><![CDATA[<div class="chat-container" ng-init="initialized = false">
+
+  <div class="chat-messages" id="chatMessages">
+    <div ng-repeat="msg in message" class="chat-message">
+      <div ng-if="msg.role == 'user'" class="user-message">
+        <div class="message-content">{{msg.content}}</div>
+      </div>
+      <div ng-if="msg.role == 'assistant'" class="assistant-message">
+        <div class="message-content">{{msg.content}}</div>
+      </div>
+    </div>
+  </div>
+
+  <form ng-submit="streamResponse()" class="chat-input-form">
+    <input type="text" ng-model="prompt" placeholder="Ask anything" class="chat-input"/>
+    <button type="submit" class="send-button"></button>
+  </form>
+
+</div>]]></template>
+    </sp_widget>
+    <sys_es_latest_script action="INSERT_OR_UPDATE">
+        <id>a8e57e398393221042565f45feaad37d</id>
+        <sys_created_by>yohanes.yilma</sys_created_by>
+        <sys_created_on>2025-08-12 10:40:05</sys_created_on>
+        <sys_id>888f7eb583d3221042565f45feaad36d</sys_id>
+        <sys_mod_count>0</sys_mod_count>
+        <sys_updated_by>yohanes.yilma</sys_updated_by>
+        <sys_updated_on>2025-08-12 10:40:05</sys_updated_on>
+        <table>sp_widget</table>
+        <use_es_latest>true</use_es_latest>
+    </sys_es_latest_script>
+</record_update>

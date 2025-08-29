@@ -6,7 +6,9 @@
         <caller_access/>
         <client_callable>true</client_callable>
         <description/>
+        <mobile_callable>false</mobile_callable>
         <name>OpenAIUtility</name>
+        <sandbox_callable>true</sandbox_callable>
         <script><![CDATA[var OpenAIUtility = Class.create();
 
 OpenAIUtility.token = gs.getProperty("x_edpet_open_ai.bearer_token");
@@ -23,14 +25,53 @@ OpenAIUtility.prototype = Object.extendsObject(global.AbstractAjaxProcessor, {
 		gs.info("OPEN AI ERROR: " + message);
 	},
 
+	listThreadMessages: function(threadId){
+		try { 
+			var r = new sn_ws.RESTMessageV2('x_edpet_open_ai.Open AI v1', 'List messages');
+			r.setStringParameterNoEscape('thread_id', threadId);
+			r.setStringParameterNoEscape('bearer_token', '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');
+
+			var response = r.execute();
+			var responseBody = response.getBody();
+			var httpStatus = response.getStatusCode();
+			var resp = JSON.parse(responseBody);
+			return resp.data;
+		}
+		catch(ex) {
+		var message = ex.message;
+		}
+	},
+
+	createThreadAndRun2: function () {
+		try {
+			var r = new sn_ws.RESTMessageV2('x_edpet_open_ai.Open AI v1', 'Create thread and run');
+			r.setStringParameterNoEscape('tools', '[{"type": "file_search"},{"type": "code_interpreter"}]');
+			r.setStringParameterNoEscape('assistant_id', 'asst_pJWOnepDWQQ2jYZ4IPq5cMTs');
+			r.setStringParameterNoEscape('bearer_token', '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');
+			r.setStringParameterNoEscape('instructions', 'ServiceNow Discovery');
+			r.setStringParameterNoEscape('model', 'gpt-4o');
+			r.setStringParameterNoEscape('messages', JSON.stringify([
+              { "role": "user", "content": "what is servicenow Discovery" }
+        ]));
+
+ var response = r.execute();
+			var responseBody = response.getBody();
+			var httpStatus = response.getStatusCode();
+			return responseBody;
+		}
+		catch (ex) {
+			var message = ex.message;
+		}
+	},
+
 	uploadFileToOpenAi: function (attachmentId) {
-		try{
+		try {
 			var mpHelper = new x_edpet_open_ai.MultipartHelper();
 			var userGR = new GlideRecord("sys_user");
 			if (userGR.get(gs.getUserID())) {
 				mpHelper.setHostRecord(userGR);
 			}
-			
+
 			mpHelper.addAttachment('file', attachmentId);
 			mpHelper.createBody({ purpose: "assistants" });
 
@@ -41,7 +82,7 @@ OpenAIUtility.prototype = Object.extendsObject(global.AbstractAjaxProcessor, {
 			restMessage.setRequestBody({ purpose: 'assistants' });
 			restMessage.setRequestHeader("Multipart", "true");
 			restMessage.setRequestHeader('Content-Type', mpHelper.getContentType());
-			restMessage.setRequestHeader('Authorization', "Bearer "+ OpenAIUtility.token);
+			restMessage.setRequestHeader('Authorization', "Bearer " + OpenAIUtility.token);
 			restMessage.setRequestBodyFromAttachment(mpHelper.getBodyId());
 
 			var restResponse = restMessage.execute();
@@ -52,16 +93,16 @@ OpenAIUtility.prototype = Object.extendsObject(global.AbstractAjaxProcessor, {
 
 			var fileId = JSON.parse(response).id;
 
-			gs.info("uploadFileToOpenAi MANJO httpStatus == "+ httpStatus);
-			gs.info("uploadFileToOpenAi MANJO == "+ response);
+			gs.info("uploadFileToOpenAi MANJO httpStatus == " + httpStatus);
+			gs.info("uploadFileToOpenAi MANJO == " + response);
 
 
 			return {
 				"status": httpStatus,
 				"response": fileId
 			};
-			
-		}catch(error){
+
+		} catch (error) {
 			return {
 				"status": "error",
 				"response": error
@@ -100,65 +141,65 @@ OpenAIUtility.prototype = Object.extendsObject(global.AbstractAjaxProcessor, {
 		return responseBody;
 	},
 
-createThreadAndRun: function (intentSysId, messagesToIntent, uploadedFiles = []) {
-	try{
+	createThreadAndRun: function (intentSysId, messagesToIntent, uploadedFiles = []) {
+		try {
 
-		gs.info("messagesToIntent == "+messagesToIntent);
-
-
-		///END
-		var files = [];
-		uploadedFiles.forEach(function(att){
-			files.push({"file_id": att, "tools": [{ "type": "file_search" }, { "type": "code_interpreter" }]});
-		});
-		var intentGr = this.getIntent(intentSysId);
-		var assistantGr = intentGr.assistant.getRefRecord();
-
-		var restMessage = new sn_ws.RESTMessageV2('x_edpet_open_ai.Open AI v1', 'Create thread and run');
-		restMessage.setStringParameterNoEscape('tools', JSON.stringify(OpenAIUtility.tools));
-		restMessage.setStringParameterNoEscape('assistant_id', assistantGr.getValue("gpt_assistant_id"));
-		restMessage.setStringParameterNoEscape('bearer_token', OpenAIUtility.token);
-		restMessage.setStringParameterNoEscape('instructions', intentGr.getValue("system_intent"));
-		// restMessage.setStringParameterNoEscape('instructions', "one of the attached file contains JSON. from the JSON properties follow and do whats written as the value of 'system_intent'");
-		restMessage.setStringParameterNoEscape('model', 'gpt-4o');
-		var messages = [
-			{ role: "user", content: messagesToIntent}
-		];
-		// messagesToIntent.forEach(function(ms){
-		// 	 messages.push(
-		// 		{ role: "user", content: "who are you"},
-		// 	);
-		// });
-
-		gs.info("messages after == "+messages);
+			gs.info("messagesToIntent == " + messagesToIntent);
 
 
-		if (files.length > 0) {
-			messages[0].attachments = files;
-		}
-		restMessage.setStringParameterNoEscape('messages', JSON.stringify(messages));
+			///END
+			var files = [];
+			uploadedFiles.forEach(function (att) {
+				files.push({ "file_id": att, "tools": [{ "type": "file_search" }, { "type": "code_interpreter" }] });
+			});
+			var intentGr = this.getIntent(intentSysId);
+			var assistantGr = intentGr.assistant.getRefRecord();
 
-		var response = restMessage.execute();
-		var responseBody = response.getBody();
-		var httpStatus = response.getStatusCode();
+			var restMessage = new sn_ws.RESTMessageV2('x_edpet_open_ai.Open AI v1', 'Create thread and run');
+			restMessage.setStringParameterNoEscape('tools', JSON.stringify(OpenAIUtility.tools));
+			restMessage.setStringParameterNoEscape('assistant_id', assistantGr.getValue("gpt_assistant_id"));
+			restMessage.setStringParameterNoEscape('bearer_token', OpenAIUtility.token);
+			restMessage.setStringParameterNoEscape('instructions', intentGr.getValue("system_intent"));
+			// restMessage.setStringParameterNoEscape('instructions', "one of the attached file contains JSON. from the JSON properties follow and do whats written as the value of 'system_intent'");
+			restMessage.setStringParameterNoEscape('model', 'gpt-4o');
+			var messages = [
+				{ role: "user", content: messagesToIntent }
+			];
+			// messagesToIntent.forEach(function(ms){
+			// 	 messages.push(
+			// 		{ role: "user", content: "who are you"},
+			// 	);
+			// });
 
-		gs.info("createThreadAndRun MANJO httpStatus == "+ httpStatus);
-		gs.info("createThreadAndRun MANJO responseBody == "+ JSON.stringify(responseBody));
+			gs.info("messages after == " + messages);
 
 
-		return {
-			"status": httpStatus,
-			"response": responseBody
-		};
+			if (files.length > 0) {
+				messages[0].attachments = files;
+			}
+			restMessage.setStringParameterNoEscape('messages', JSON.stringify(messages));
 
-	}catch(error){
-		gs.info("createThreadAndRun MANJO ERROR == "+ error);
-		return {
+			var response = restMessage.execute();
+			var responseBody = response.getBody();
+			var httpStatus = response.getStatusCode();
+
+			gs.info("createThreadAndRun MANJO httpStatus == " + httpStatus);
+			gs.info("createThreadAndRun MANJO responseBody == " + JSON.stringify(responseBody));
+
+
+			return {
+				"status": httpStatus,
+				"response": responseBody
+			};
+
+		} catch (error) {
+			gs.info("createThreadAndRun MANJO ERROR == " + error);
+			return {
 				"status": "error",
 				"response": error
 			};
-	}
-	
+		}
+
 	},
 
 	createThreadAndRunWithOutFile: function (intentSysId, messageToIntent) {
@@ -184,7 +225,7 @@ createThreadAndRun: function (intentSysId, messagesToIntent, uploadedFiles = [])
 
 		restMessage.setStringParameterNoEscape('model', 'gpt-4o');
 		var messages = [
-			{ "role": "user", "content": messageToIntent}
+			{ "role": "user", "content": messageToIntent }
 		];
 
 		restMessage.setStringParameterNoEscape('messages', JSON.stringify(messages));
@@ -196,24 +237,24 @@ createThreadAndRun: function (intentSysId, messagesToIntent, uploadedFiles = [])
 	},
 
 	makeGoodString: function (input) {
- let sanitizedString = input.trim();
+		let sanitizedString = input.trim();
 
-    // 2. Replace escaped characters with their proper equivalents
-    sanitizedString = sanitizedString
-      .replace(/\\n/g, "\n") // Convert escaped newlines to actual newlines
-      .replace(/\\t/g, "\t") // Convert escaped tabs to actual tabs
-      .replace(/\\"/g, '"')  // Replace escaped double quotes
-      .replace(/\\'/g, "'")  // Replace escaped single quotes
-      .replace(/\\\\/g, "\\"); // Replace double backslashes with a single backslash
+		// 2. Replace escaped characters with their proper equivalents
+		sanitizedString = sanitizedString
+			.replace(/\\n/g, "\n") // Convert escaped newlines to actual newlines
+			.replace(/\\t/g, "\t") // Convert escaped tabs to actual tabs
+			.replace(/\\"/g, '"')  // Replace escaped double quotes
+			.replace(/\\'/g, "'")  // Replace escaped single quotes
+			.replace(/\\\\/g, "\\"); // Replace double backslashes with a single backslash
 
-    // 3. Escape backticks for template literal safety
-    sanitizedString = sanitizedString.replace(/`/g, "\\`");
+		// 3. Escape backticks for template literal safety
+		sanitizedString = sanitizedString.replace(/`/g, "\\`");
 
-    // 4. Wrap the string in backticks to convert it into a template literal
-    sanitizedString = `\`${sanitizedString}\``;
+		// 4. Wrap the string in backticks to convert it into a template literal
+		sanitizedString = `\`${sanitizedString}\``;
 
-    return sanitizedString;
-},
+		return sanitizedString;
+	},
 
 	// retrieveAssistantMessage: function (threadId, attempts = 0) {
 	// 	try{
@@ -267,61 +308,61 @@ createThreadAndRun: function (intentSysId, messagesToIntent, uploadedFiles = [])
 	// 			"response": error
 	// 		};
 	// 	}
-		
+
 	// },
 
-	
+
 	retrieveAssistantMessage: function (threadId, attempts = 0) {
-    try {
-		// threadId = "thread_ZH1RLyKJlp8Pm7bibyVU2Rzl";
-        gs.info("retrieveAssistantMessage threadId == " + threadId);
-        gs.info("retrieveAssistantMessage attempts == " + attempts);
+		try {
+			// threadId = "thread_ZH1RLyKJlp8Pm7bibyVU2Rzl";
+			gs.info("retrieveAssistantMessage threadId == " + threadId);
+			gs.info("retrieveAssistantMessage attempts == " + attempts);
 
-        // Stop if maximum attempts (5) are reached
-        if (attempts >= 11) {
-            return {
-                "status": 200,
-                "response": []
-            };
-        }
-
-        // Perform the REST API call
-        var r = new sn_ws.RESTMessageV2('x_edpet_open_ai.Open AI v1', 'List messages');
-        r.setStringParameterNoEscape('thread_id', threadId);
-        r.setStringParameterNoEscape('bearer_token', OpenAIUtility.token);
-        var response = r.execute();
-        var responseBody = response.getBody();
-        var httpStatus = response.getStatusCode();
-        var messages = JSON.parse(responseBody).data;
-        var assistantMessages = messages.filter(msg => msg.role == "assistant");
-
-        gs.info("retrieveAssistantMessage MANJO httpStatus== " + httpStatus);
-        gs.info("retrieveAssistantMessage MANJO assistantMessages== " + JSON.stringify(assistantMessages));
-        gs.info("retrieveAssistantMessage assistantMessages.length == " + assistantMessages.length);
-
-        // If there are assistant messages, return them
-        if (assistantMessages.length > 0 && assistantMessages[0].content.length > 0) {
-            return {
-                "status": httpStatus,
-                "response": assistantMessages
-            };
-        } else {
-            gs.info("retrieveAssistantMessage inside loop 1");
-			var startTime = new Date().getTime();
-				var delay = 9000;
-				while (new Date().getTime() < startTime + delay){
-				//
+			// Stop if maximum attempts (5) are reached
+			if (attempts >= 11) {
+				return {
+					"status": 200,
+					"response": []
 				};
-					return this.retrieveAssistantMessage(threadId, attempts + 1);  
-        }
-    } catch (error) {
-        gs.info("retrieveAssistantMessage MANJO == " + error);
-        return {
-            "status": "error",
-            "response": error
-        };
-    }
-},
+			}
+
+			// Perform the REST API call
+			var r = new sn_ws.RESTMessageV2('x_edpet_open_ai.Open AI v1', 'List messages');
+			r.setStringParameterNoEscape('thread_id', threadId);
+			r.setStringParameterNoEscape('bearer_token', OpenAIUtility.token);
+			var response = r.execute();
+			var responseBody = response.getBody();
+			var httpStatus = response.getStatusCode();
+			var messages = JSON.parse(responseBody).data;
+			var assistantMessages = messages.filter(msg => msg.role == "assistant");
+
+			gs.info("retrieveAssistantMessage MANJO httpStatus== " + httpStatus);
+			gs.info("retrieveAssistantMessage MANJO assistantMessages== " + JSON.stringify(assistantMessages));
+			gs.info("retrieveAssistantMessage assistantMessages.length == " + assistantMessages.length);
+
+			// If there are assistant messages, return them
+			if (assistantMessages.length > 0 && assistantMessages[0].content.length > 0) {
+				return {
+					"status": httpStatus,
+					"response": assistantMessages
+				};
+			} else {
+				gs.info("retrieveAssistantMessage inside loop 1");
+				var startTime = new Date().getTime();
+				var delay = 9000;
+				while (new Date().getTime() < startTime + delay) {
+					//
+				};
+				return this.retrieveAssistantMessage(threadId, attempts + 1);
+			}
+		} catch (error) {
+			gs.info("retrieveAssistantMessage MANJO == " + error);
+			return {
+				"status": "error",
+				"response": error
+			};
+		}
+	},
 
 
 
@@ -387,13 +428,24 @@ createThreadAndRun: function (intentSysId, messagesToIntent, uploadedFiles = [])
         <sys_created_by>yohanes.yilma@einar.partners</sys_created_by>
         <sys_created_on>2024-11-30 16:59:24</sys_created_on>
         <sys_id>83054b73e9ce5a10c7d7eb2eeb8c98f3</sys_id>
-        <sys_mod_count>284</sys_mod_count>
+        <sys_mod_count>287</sys_mod_count>
         <sys_name>OpenAIUtility</sys_name>
         <sys_package display_value="Open AI" source="x_edpet_open_ai">01a6e6fee9ca9210c7d7eb2eeb8c98ea</sys_package>
         <sys_policy>read</sys_policy>
         <sys_scope display_value="Open AI">01a6e6fee9ca9210c7d7eb2eeb8c98ea</sys_scope>
         <sys_update_name>sys_script_include_83054b73e9ce5a10c7d7eb2eeb8c98f3</sys_update_name>
-        <sys_updated_by>yohanes.yilma@einar.partners</sys_updated_by>
-        <sys_updated_on>2025-02-26 07:32:47</sys_updated_on>
+        <sys_updated_by>yohanes.yilma</sys_updated_by>
+        <sys_updated_on>2025-08-13 12:10:01</sys_updated_on>
     </sys_script_include>
+    <sys_es_latest_script action="INSERT_OR_UPDATE">
+        <id>83054b73e9ce5a10c7d7eb2eeb8c98f3</id>
+        <sys_created_by>admin</sys_created_by>
+        <sys_created_on>2025-08-09 10:53:37</sys_created_on>
+        <sys_id>34d567308357221042565f45feaad3c7</sys_id>
+        <sys_mod_count>0</sys_mod_count>
+        <sys_updated_by>admin</sys_updated_by>
+        <sys_updated_on>2025-08-09 10:53:37</sys_updated_on>
+        <table>sys_script_include</table>
+        <use_es_latest>true</use_es_latest>
+    </sys_es_latest_script>
 </record_update>

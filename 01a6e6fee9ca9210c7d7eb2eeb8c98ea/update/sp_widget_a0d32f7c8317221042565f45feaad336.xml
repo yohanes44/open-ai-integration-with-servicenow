@@ -1,0 +1,227 @@
+<?xml version="1.0" encoding="UTF-8"?><record_update table="sp_widget">
+    <sp_widget action="INSERT_OR_UPDATE">
+        <category>custom</category>
+        <client_script><![CDATA[api.controller=function($scope) {
+/* widget controller */
+var c = this;
+$scope.prompt;
+$scope.message = [];
+
+$scope.addAssistantMessage = function(role, msg){
+    $scope.message.push(
+        {"role": role, "content": msg}
+    );
+};
+
+$scope.streamResponse= function(){
+	try{
+
+         $scope.addAssistantMessage("user", $scope.prompt);
+
+		var apiKey = "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";
+    var response =  fetch("https://api.openai.com/v1/chat/completions", {
+        method: "POST",
+        headers: {
+            "Content-Type": "application/json",
+            "Authorization": "Bearer " + apiKey
+        },
+        body: JSON.stringify({
+            model: "gpt-4o-mini", 
+            messages: $scope.message,
+            stream: true
+        })
+    }).then(function(response) {
+        var reader = response.body.getReader();
+        var decoder = new TextDecoder("utf-8");
+
+        function readChunk() {
+            return reader.read().then(function(result) {
+                if (result.done) return;
+
+                var chunk = decoder.decode(result.value, { stream: true });
+                var lines = chunk.split("\n").filter(function(line) {
+                    return line.trim() !== "";
+                });
+
+                lines.forEach(function(line) {
+                    if (line.startsWith("data: ")) {
+                        var data = line.replace(/^data: /, "");
+                        if (data === "[DONE]") {
+                            $scope.addAssistantMessage("system", $scope.output);
+                            $scope.output = "";
+                            return;
+                        }
+
+
+
+                        try {
+                            var parsed = JSON.parse(data);
+                            var content = parsed.choices[0].delta.content || "";
+
+
+                            $scope.$apply(function() {
+                                $scope.output += content;
+                            });
+
+                            
+                        } catch (err) {
+                            console.error(err);
+                        }
+                    }
+                });
+
+                return readChunk();
+            });
+        }
+
+        return readChunk();
+    })
+	 }catch(error){
+		 console.log("ERROR == "+ error);
+	 }
+    
+
+  
+};
+
+  
+};
+
+]]></client_script>
+        <controller_as>c</controller_as>
+        <css>.chat-container {
+  width: 100%;
+  max-width: 800px;
+  margin: 0 auto;
+  display: flex;
+  flex-direction: column;
+  height: 80vh;
+  border: 1px solid #ccc;
+  border-radius: 8px;
+  overflow: hidden;
+  background: #f5f5f5;
+}
+
+.chat-messages {
+  flex: 1;
+  padding: 16px;
+  overflow-y: auto;
+}
+
+.chat-message {
+  margin-bottom: 10px;
+  display: flex;
+  align-items: flex-start;
+}
+
+.user-message {
+  align-self: flex-end;
+  background: #0084ff;
+  color: white;
+  border-radius: 16px;
+  margin-left: auto;
+  padding: 8px 12px;
+  max-width: 60%;
+}
+
+.assistant-message {
+  background: #e4e6eb;
+  border-radius: 16px;
+  padding: 8px 12px;
+  max-width: 60%;
+}
+
+.message-content {
+  font-size: 14px;
+  line-height: 1.4;
+}
+
+.chat-input-form {
+  display: flex;
+  border-top: 1px solid #ccc;
+  background: white;
+}
+
+.chat-input {
+  flex: 1;
+  padding: 10px 12px;
+  border: none;
+  outline: none;
+  font-size: 16px;
+}
+
+.send-button {
+  background: #0084ff;
+  border: none;
+  color: white;
+  padding: 10px 16px;
+  cursor: pointer;
+  transition: background 0.3s;
+}
+
+.send-button:hover {
+  background: #006bbf;
+}</css>
+        <data_table>sp_instance</data_table>
+        <demo_data/>
+        <description/>
+        <docs/>
+        <field_list/>
+        <has_preview>true</has_preview>
+        <id>chattgpt_completion</id>
+        <internal>false</internal>
+        <link><![CDATA[function link(scope, element, attrs, controller) {
+  
+}]]></link>
+        <name>ChattGPT Completion</name>
+        <option_schema/>
+        <public>false</public>
+        <roles/>
+        <script><![CDATA[(function() {
+  /* populate the 'data' object */
+  /* e.g., data.table = $sp.getValue('table'); */
+
+})();]]></script>
+        <servicenow>false</servicenow>
+        <sys_class_name>sp_widget</sys_class_name>
+        <sys_created_by>admin</sys_created_by>
+        <sys_created_on>2025-08-09 10:45:22</sys_created_on>
+        <sys_id>a0d32f7c8317221042565f45feaad336</sys_id>
+        <sys_mod_count>69</sys_mod_count>
+        <sys_name>ChattGPT Completion</sys_name>
+        <sys_package display_value="Open AI" source="x_edpet_open_ai">01a6e6fee9ca9210c7d7eb2eeb8c98ea</sys_package>
+        <sys_policy/>
+        <sys_scope display_value="Open AI">01a6e6fee9ca9210c7d7eb2eeb8c98ea</sys_scope>
+        <sys_update_name>sp_widget_a0d32f7c8317221042565f45feaad336</sys_update_name>
+        <sys_updated_by>yohanes.yilma</sys_updated_by>
+        <sys_updated_on>2025-08-11 13:51:11</sys_updated_on>
+        <template><![CDATA[<div class="chat-container">
+  <div class="chat-messages" id="chatMessages">
+    <div ng-repeat="msg in message" class="chat-message">
+      <div ng-if="msg.role == 'user'" class="user-message">
+        <div class="message-content">{{msg.content}}</div>
+      </div>
+      <div ng-if="msg.role == 'system'" class="assistant-message">
+        <div class="message-content">{{msg.content}}</div>
+      </div>
+    </div>
+  </div>
+
+  <form ng-submit="streamResponse()" class="chat-input-form">
+    <input type="text" ng-model="prompt" placeholder="Type your message here..." autocomplete="off" class="chat-input" />
+    <button type="submit" class="send-button">Send</button>
+  </form>
+</div>]]></template>
+    </sp_widget>
+    <sys_es_latest_script action="INSERT_OR_UPDATE">
+        <id>a0d32f7c8317221042565f45feaad336</id>
+        <sys_created_by>admin</sys_created_by>
+        <sys_created_on>2025-08-09 10:45:20</sys_created_on>
+        <sys_id>2be3ab748317221042565f45feaad343</sys_id>
+        <sys_mod_count>0</sys_mod_count>
+        <sys_updated_by>admin</sys_updated_by>
+        <sys_updated_on>2025-08-09 10:45:20</sys_updated_on>
+        <table>sp_widget</table>
+        <use_es_latest>true</use_es_latest>
+    </sys_es_latest_script>
+</record_update>

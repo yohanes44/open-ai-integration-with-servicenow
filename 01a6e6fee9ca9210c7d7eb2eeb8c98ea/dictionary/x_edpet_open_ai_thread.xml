@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="UTF-8"?><database>
+    <element db_object_id="73b2081e8353221042565f45feaad3cc" label="Thread" max_length="40" name="x_edpet_open_ai_thread" type="collection">
+        <element label="ID" max_length="254" name="id" type="string"/>
+        <element label="Owner" max_length="32" name="owner" read_only="true" reference="sys_user" type="reference"/>
+        <element label="Assistant" max_length="32" name="assistant" reference="x_edpet_open_ai_assistant" type="reference"/>
+        <index name="index">
+            <element name="assistant"/>
+        </index>
+        <index name="index2">
+            <element name="owner"/>
+        </index>
+    </element>
+</database>
