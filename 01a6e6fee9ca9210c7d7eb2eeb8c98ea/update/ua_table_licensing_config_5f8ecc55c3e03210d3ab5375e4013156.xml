@@ -4,22 +4,22 @@
         <license_condition/>
         <license_model>none</license_model>
         <license_roles/>
-        <name>x_edpet_open_ai_assistant</name>
+        <name>x_edpet_open_ai_file</name>
         <op_delete>true</op_delete>
         <op_insert>true</op_insert>
         <op_update>true</op_update>
         <owner_condition/>
         <sys_class_name>ua_table_licensing_config</sys_class_name>
-        <sys_created_by>yohanes.yilma@einar.partners</sys_created_by>
-        <sys_created_on>2025-03-03 19:09:03</sys_created_on>
-        <sys_id>ae5becf9c38322107e68b41ed4013105</sys_id>
+        <sys_created_by>yohanes.yilma</sys_created_by>
+        <sys_created_on>2025-10-11 11:48:31</sys_created_on>
+        <sys_id>5f8ecc55c3e03210d3ab5375e4013156</sys_id>
         <sys_mod_count>0</sys_mod_count>
-        <sys_name>x_edpet_open_ai_assistant</sys_name>
+        <sys_name>x_edpet_open_ai_file</sys_name>
         <sys_package display_value="Open AI" source="x_edpet_open_ai">01a6e6fee9ca9210c7d7eb2eeb8c98ea</sys_package>
         <sys_policy/>
         <sys_scope display_value="Open AI">01a6e6fee9ca9210c7d7eb2eeb8c98ea</sys_scope>
-        <sys_update_name>ua_table_licensing_config_ae5becf9c38322107e68b41ed4013105</sys_update_name>
-        <sys_updated_by>yohanes.yilma@einar.partners</sys_updated_by>
-        <sys_updated_on>2025-03-03 19:09:03</sys_updated_on>
+        <sys_update_name>ua_table_licensing_config_5f8ecc55c3e03210d3ab5375e4013156</sys_update_name>
+        <sys_updated_by>yohanes.yilma</sys_updated_by>
+        <sys_updated_on>2025-10-11 11:48:31</sys_updated_on>
     </ua_table_licensing_config>
 </record_update>

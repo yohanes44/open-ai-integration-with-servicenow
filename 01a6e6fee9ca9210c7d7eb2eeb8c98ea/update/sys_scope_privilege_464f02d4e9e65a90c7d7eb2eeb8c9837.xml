@@ -16,7 +16,7 @@
         <sys_updated_by>yohanes.yilma@einar.partners</sys_updated_by>
         <sys_updated_on>2024-12-14 12:20:17</sys_updated_on>
         <target_name>IKMTemplateUtility</target_name>
-        <target_scope display_value="Information and Knowledge Management Tasks">d6a6e50b259a31108ffef4757de9836f</target_scope>
+        <target_scope display_value="">d6a6e50b259a31108ffef4757de9836f</target_scope>
         <target_type>sys_script_include</target_type>
     </sys_scope_privilege>
 </record_update>

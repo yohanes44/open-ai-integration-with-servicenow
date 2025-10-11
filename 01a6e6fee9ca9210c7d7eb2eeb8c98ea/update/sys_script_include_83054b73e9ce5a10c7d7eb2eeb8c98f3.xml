@@ -6,7 +6,9 @@
         <caller_access/>
         <client_callable>true</client_callable>
         <description/>
+        <mobile_callable>false</mobile_callable>
         <name>OpenAIUtility</name>
+        <sandbox_callable>true</sandbox_callable>
         <script><![CDATA[var OpenAIUtility = Class.create();
 
 OpenAIUtility.token = gs.getProperty("x_edpet_open_ai.bearer_token");
@@ -17,10 +19,41 @@ OpenAIUtility.default_vectore_store_id = gs.getProperty("x_edpet_open_ai.default
 
 
 OpenAIUtility.prototype = Object.extendsObject(global.AbstractAjaxProcessor, {
+	
 
 
 	logError: function (message) {
 		gs.info("OPEN AI ERROR: " + message);
+	},
+
+	createVectorStore: function (name) {
+		try {
+			var r = new sn_ws.RESTMessageV2('x_edpet_open_ai.Open AI v1', 'Create vector store');
+			r.setStringParameterNoEscape('bearer_token', OpenAIUtility.token);
+			r.setStringParameterNoEscape('name', name);
+			var response = r.execute();
+			var responseBody = response.getBody();
+			var httpStatus = response.getStatusCode();
+			if (httpStatus >= 200 && httpStatus < 300) {
+				return {
+					success: true,
+					body: JSON.parse(responseBody)
+				};
+			} else {
+				return {
+					success: false,
+					httpStatus: httpStatus,
+					error: JSON.parse(responseBody).message
+				};
+			}
+		}
+		catch (error) {
+			gs.info("ScriptInclude ERROR - OpenAIUtility - createVectorStore == " + error.message);
+			return {
+				success: false,
+				error: error.message
+			};
+		}
 	},
 
 	listThreadMessages: function (threadId) {
@@ -61,7 +94,7 @@ OpenAIUtility.prototype = Object.extendsObject(global.AbstractAjaxProcessor, {
 		}
 	},
 
-	uploadFileToOpenAi: function (attachmentId) {
+	uploadFile: function (attachmentId) {
 		try {
 			var mpHelper = new x_edpet_open_ai.MultipartHelper();
 			var userGR = new GlideRecord("sys_user");
@@ -86,18 +119,20 @@ OpenAIUtility.prototype = Object.extendsObject(global.AbstractAjaxProcessor, {
 			mpHelper.deleteBody();
 
 			var response = restResponse.getBody();
-			var httpStatus = JSON.parse(response).status;
+            var res = JSON.parse(response);
+			var httpStatus = res.status;
 
-			var fileId = JSON.parse(response).id;
-
-			gs.info("uploadFileToOpenAi MANJO httpStatus == " + httpStatus);
-			gs.info("uploadFileToOpenAi MANJO == " + response);
-
-
-			return {
-				"status": httpStatus,
-				"response": fileId
-			};
+			if(httpStatus == "processed"){
+				return {
+					"status": true,
+					"response": res
+				};
+			}else{
+				return {
+					"status": false,
+					"response": httpStatus
+				};
+			}
 
 		} catch (error) {
 			return {
@@ -133,9 +168,20 @@ OpenAIUtility.prototype = Object.extendsObject(global.AbstractAjaxProcessor, {
 		r.setStringParameterNoEscape('instructions', instructions);
 		var response = r.execute();
 		var responseBody = JSON.parse(response.getBody());
-		// gs.addInfoMessage("ID == "+ JSON.parse(responseBody).id);
+		var httpStatus = response.getStatusCode();
 
-		return responseBody;
+		if (httpStatus >= 200 && httpStatus < 300){
+			return {
+				success: true,
+				body: responseBody
+			};
+		}else{
+			return {
+				success: false,
+				httpStatus: httpStatus,
+				error: responseBody.message
+			};
+		}
 	},
 
 	createThreadAndRun: function (intentSysId, messagesToIntent, uploadedFiles = []) {
@@ -425,13 +471,13 @@ OpenAIUtility.prototype = Object.extendsObject(global.AbstractAjaxProcessor, {
         <sys_created_by>yohanes.yilma@einar.partners</sys_created_by>
         <sys_created_on>2024-11-30 16:59:24</sys_created_on>
         <sys_id>83054b73e9ce5a10c7d7eb2eeb8c98f3</sys_id>
-        <sys_mod_count>290</sys_mod_count>
+        <sys_mod_count>301</sys_mod_count>
         <sys_name>OpenAIUtility</sys_name>
         <sys_package display_value="Open AI" source="x_edpet_open_ai">01a6e6fee9ca9210c7d7eb2eeb8c98ea</sys_package>
         <sys_policy/>
         <sys_scope display_value="Open AI">01a6e6fee9ca9210c7d7eb2eeb8c98ea</sys_scope>
         <sys_update_name>sys_script_include_83054b73e9ce5a10c7d7eb2eeb8c98f3</sys_update_name>
-        <sys_updated_by>yohanes .yilma</sys_updated_by>
-        <sys_updated_on>2025-08-22 13:16:31</sys_updated_on>
+        <sys_updated_by>yohanes.yilma</sys_updated_by>
+        <sys_updated_on>2025-10-11 11:40:10</sys_updated_on>
     </sys_script_include>
 </record_update>

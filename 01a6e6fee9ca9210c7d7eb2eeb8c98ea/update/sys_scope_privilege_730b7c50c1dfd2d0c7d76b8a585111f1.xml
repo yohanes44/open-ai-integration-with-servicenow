@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?><record_update table="sys_scope_privilege">
     <sys_scope_privilege action="INSERT_OR_UPDATE">
         <operation>read</operation>
-        <source_scope display_value="Engagement Management">96c1047708c275108ffee8e8880335a3</source_scope>
+        <source_scope display_value="">96c1047708c275108ffee8e8880335a3</source_scope>
         <status>allowed</status>
         <sys_class_name>sys_scope_privilege</sys_class_name>
         <sys_created_by>yohanes.yilma@einar.partners</sys_created_by>
@@ -9,7 +9,7 @@
         <sys_id>730b7c50c1dfd2d0c7d76b8a585111f1</sys_id>
         <sys_mod_count>0</sys_mod_count>
         <sys_name>x_edpet_open_ai_intent</sys_name>
-        <sys_package display_value="Engagement Management" source="x_edpet_engmgt">96c1047708c275108ffee8e8880335a3</sys_package>
+        <sys_package display_value="Open AI" source="x_edpet_open_ai">01a6e6fee9ca9210c7d7eb2eeb8c98ea</sys_package>
         <sys_policy/>
         <sys_scope display_value="Open AI">01a6e6fee9ca9210c7d7eb2eeb8c98ea</sys_scope>
         <sys_update_name>sys_scope_privilege_730b7c50c1dfd2d0c7d76b8a585111f1</sys_update_name>

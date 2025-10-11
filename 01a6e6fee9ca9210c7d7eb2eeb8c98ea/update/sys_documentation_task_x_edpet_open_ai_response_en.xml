@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="UTF-8"?><record_update>
+    <sys_documentation element="x_edpet_open_ai_response" label="Open AI Response" language="en" table="task">
+        <sys_documentation action="INSERT_OR_UPDATE">
+            <element>x_edpet_open_ai_response</element>
+            <help/>
+            <hint/>
+            <label>Open AI Response</label>
+            <language>en</language>
+            <name>task</name>
+            <plural>Open AI Responses</plural>
+            <sys_class_name>sys_documentation</sys_class_name>
+            <sys_created_by>yohanes.yilma</sys_created_by>
+            <sys_created_on>2025-10-11 13:03:38</sys_created_on>
+            <sys_mod_count>0</sys_mod_count>
+            <sys_name>Open AI Response</sys_name>
+            <sys_package display_value="Open AI" source="x_edpet_open_ai">01a6e6fee9ca9210c7d7eb2eeb8c98ea</sys_package>
+            <sys_policy/>
+            <sys_scope display_value="Open AI">01a6e6fee9ca9210c7d7eb2eeb8c98ea</sys_scope>
+            <sys_update_name>sys_documentation_task_x_edpet_open_ai_response_en</sys_update_name>
+            <sys_updated_by>yohanes.yilma</sys_updated_by>
+            <sys_updated_on>2025-10-11 13:03:38</sys_updated_on>
+            <url/>
+            <url_target/>
+        </sys_documentation>
+    </sys_documentation>
+</record_update>

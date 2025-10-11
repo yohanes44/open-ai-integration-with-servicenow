@@ -20,6 +20,7 @@
         <label_cache/>
         <latest_snapshot/>
         <master_snapshot/>
+        <master_snapshot_digest/>
         <name>Send Attachment to ChattGPT API</name>
         <natlang/>
         <outputs/>
@@ -50,9 +51,7 @@
     <sys_hub_action_output action="delete_multiple" query="model=ca542247e9c61610c7d7eb2eeb8c984e"/>
     <sys_hub_pill_compound action="delete_multiple" query="attached_to=ca542247e9c61610c7d7eb2eeb8c984e"/>
     <sys_hub_action_status_metadata action="delete_multiple" query="action_type_id=ca542247e9c61610c7d7eb2eeb8c984e"/>
-    <sys_documentation action="delete_multiple" query="name=var__m_sys_hub_action_input_ca542247e9c61610c7d7eb2eeb8c984e"/>
     <sys_choice action="delete_multiple" query="name=var__m_sys_hub_action_input_ca542247e9c61610c7d7eb2eeb8c984e"/>
-    <sys_documentation action="delete_multiple" query="name=var__m_sys_hub_action_output_ca542247e9c61610c7d7eb2eeb8c984e"/>
     <sys_choice action="delete_multiple" query="name=var__m_sys_hub_action_output_ca542247e9c61610c7d7eb2eeb8c984e"/>
     <sys_hub_action_plan action="delete_multiple" query="action_id=ca542247e9c61610c7d7eb2eeb8c984e"/>
 </record_update>

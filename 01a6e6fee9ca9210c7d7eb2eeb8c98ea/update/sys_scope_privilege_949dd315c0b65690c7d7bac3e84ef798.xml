@@ -16,7 +16,7 @@
         <sys_updated_by>yohanes.yilma@einar.partners</sys_updated_by>
         <sys_updated_on>2024-12-30 06:51:57</sys_updated_on>
         <target_name>EngagementManagementUtility</target_name>
-        <target_scope display_value="Engagement Management">96c1047708c275108ffee8e8880335a3</target_scope>
+        <target_scope display_value="">96c1047708c275108ffee8e8880335a3</target_scope>
         <target_type>sys_script_include</target_type>
     </sys_scope_privilege>
 </record_update>
