@@ -1,9 +1,10 @@
 <?xml version="1.0" encoding="UTF-8"?><database>
     <element db_object_id="075e8855c3e03210d3ab5375e40131de" label="File" max_length="40" name="x_edpet_open_ai_file" type="collection">
-        <element label="Vector Store" max_length="32" name="vector_store" reference="x_edpet_open_ai_vector_store" type="reference"/>
+        <element label="Vector Store" max_length="32" name="vector_store" read_only="true" reference="x_edpet_open_ai_vector_store" type="reference"/>
+        <element label="ID" max_length="40" name="id" read_only="true" type="string"/>
         <element dependent="target_table" dependent_on_field="target_table" label="Target Record" max_length="32" name="target_record" type="document_id" use_dependent_field="true"/>
         <element label="Target Table" max_length="80" name="target_table" type="table_name"/>
-        <element label="Attachment" max_length="40" name="attachment" type="file_attachment"/>
+        <element label="Attachment" max_length="40" name="attachment" read_only="true" type="file_attachment"/>
         <index name="index">
             <element name="target_record"/>
         </index>

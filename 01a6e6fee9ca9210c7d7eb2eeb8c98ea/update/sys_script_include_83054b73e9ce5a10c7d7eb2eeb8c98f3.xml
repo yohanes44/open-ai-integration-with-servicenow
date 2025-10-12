@@ -19,12 +19,13 @@ OpenAIUtility.default_vectore_store_id = gs.getProperty("x_edpet_open_ai.default
 
 
 OpenAIUtility.prototype = Object.extendsObject(global.AbstractAjaxProcessor, {
-	
+
 
 
 	logError: function (message) {
 		gs.info("OPEN AI ERROR: " + message);
 	},
+
 
 	createVectorStore: function (name) {
 		try {
@@ -94,6 +95,64 @@ OpenAIUtility.prototype = Object.extendsObject(global.AbstractAjaxProcessor, {
 		}
 	},
 
+	createVectorStoreFileBatch: function (vector_store_id, fileIds) {
+		try {
+			var r = new sn_ws.RESTMessageV2('x_edpet_open_ai.Open AI v1', 'Create vector store file batch');
+			r.setStringParameterNoEscape('bearer_token', OpenAIUtility.token);
+			r.setStringParameterNoEscape('file_ids', JSON.stringify(fileIds));
+			r.setStringParameterNoEscape('vector_store_id', vector_store_id);
+			var response = r.execute();
+			var responseBody = response.getBody();
+			var httpStatus = response.getStatusCode();
+			if (httpStatus >= 200 && httpStatus < 300) {
+				return {
+					success: true,
+					body: JSON.parse(responseBody)
+				};
+			} else {
+				return {
+					success: false,
+					httpStatus: httpStatus,
+					error: JSON.parse(responseBody).message
+				};
+			}
+		}
+		catch (error) {
+			gs.info("ScriptInclude ERROR - OpenAIUtility - createVectorStoreFileBatch == " + error.message);
+			return {
+				success: false,
+				error: error.message
+			};
+		}
+	},
+
+	createVectorStoreFile: function (vector_store_id, file_id) {
+		try {
+			var r = new sn_ws.RESTMessageV2('x_edpet_open_ai.Open AI v1', 'Create vector store file');
+			r.setStringParameterNoEscape('file_id', file_id);
+			r.setStringParameterNoEscape('bearer_token', OpenAIUtility.token);
+			r.setStringParameterNoEscape('vector_store_id', vector_store_id);
+			var response = r.execute();
+			var responseBody = response.getBody();
+			var httpStatus = response.getStatusCode();
+			if (httpStatus >= 200 && httpStatus < 300) {
+				return {
+					success: true,
+					body: JSON.parse(responseBody)
+				};
+			} else {
+				return {
+					success: false,
+					httpStatus: httpStatus,
+					error: JSON.parse(responseBody).message
+				};
+			}
+		}
+		catch (ex) {
+			var message = ex.message;
+		}
+	},
+
 	uploadFile: function (attachmentId) {
 		try {
 			var mpHelper = new x_edpet_open_ai.MultipartHelper();
@@ -119,15 +178,17 @@ OpenAIUtility.prototype = Object.extendsObject(global.AbstractAjaxProcessor, {
 			mpHelper.deleteBody();
 
 			var response = restResponse.getBody();
-            var res = JSON.parse(response);
+			var res = JSON.parse(response);
 			var httpStatus = res.status;
 
-			if(httpStatus == "processed"){
+			gs.info("httpStatus == " + httpStatus);
+
+			if (httpStatus == "processed") {
 				return {
 					"status": true,
 					"response": res
 				};
-			}else{
+			} else {
 				return {
 					"status": false,
 					"response": httpStatus
@@ -138,6 +199,144 @@ OpenAIUtility.prototype = Object.extendsObject(global.AbstractAjaxProcessor, {
 			return {
 				"status": "error",
 				"response": error
+			};
+		}
+	},
+
+	isFileInVectorStore: function (fileId, vectorStoreSysID, targetTable, targetRecordSysID) {
+		var gr = new GlideRecord('x_edpet_open_ai_file');
+		gr.addQuery('id', fileId);
+		gr.addQuery('vector_store', vectorStoreSysID);
+		gr.addQuery('target_table', targetTable);
+		gr.addQuery('target_record', targetRecordSysID);
+		gr.query();
+		return gr.hasNext();
+	},
+
+	isAttachmentUploaded: function (attachment) {
+		var gr = new GlideRecord('x_edpet_open_ai_file');
+		gr.addQuery('attachment', attachment);
+		gr.setLimit(1);
+		gr.query();
+		var answer = false;
+		while (gr.next()) {
+			answer = true;
+		}
+		return answer;
+	},
+
+	getVSFilesFromRecord: function (tableName, recordSysID, vectorStoreID) {
+		var grAttachment = new GlideRecord('sys_attachment');
+		grAttachment.addQuery('table_sys_id', recordSysID);
+		grAttachment.query();
+		var attachmentIds = [];
+		while (grAttachment.next()) {
+			attachmentIds.push(grAttachment.getValue('sys_id'));
+		}
+		if (attachmentIds.length === 0) {
+			return {
+				status: false,
+				message: "No attachments to process"
+			}; 
+		}
+		
+		var grOpenAIFile = new GlideRecord('x_edpet_open_ai_file');
+		grOpenAIFile.addQuery('target_table', tableName);
+		grOpenAIFile.addQuery('target_record', recordSysID);
+		grOpenAIFile.addQuery('vector_store.source_id', vectorStoreID);
+		grOpenAIFile.query();
+		var existingAttachmentSet = new Set();
+		while(grOpenAIFile.next()) {
+			existingAttachmentSet.add(grOpenAIFile.getValue('attachment'));
+		}
+
+		//Filter attachments that are not yet in OpenAI files
+		var newAttachments = attachmentIds.filter(id => !existingAttachmentSet.has(id));
+		//Upload new attachments if any
+		if (newAttachments.length > 0) {
+			var response = this.uploadVSFilesFromRecord(newAttachments, vectorStoreID, tableName, recordSysID);
+			if (!response.status) {
+				return response;
+			}
+		}
+
+		//Return all OpenAI file IDs for this record/vector store
+		var allOpenAIIds = [];
+		grOpenAIFile.initialize(); // reset query
+		grOpenAIFile.addQuery('target_table', tableName);
+		grOpenAIFile.addQuery('target_record', recordSysID);
+		grOpenAIFile.addQuery('vector_store.source_id', vectorStoreID);
+		grOpenAIFile.query();
+		while (grOpenAIFile.next()) {
+			allOpenAIIds.push(grOpenAIFile.getValue('id'));
+		}
+		return allOpenAIIds;
+	},
+
+
+	uploadVSFilesFromRecord: function (attachmentsList, vectorStoreID, target_table, target_record_sys_id) {
+
+		var attachments = (attachmentsList) ? attachmentsList : this.getProperty("sysparm_attachments");
+		var vector_store_id = (vectorStoreID) ? vectorStoreID : this.getProperty("sysparm_vector_store_id");
+		var targetTable = (target_table) ? target_table : this.getProperty("sysparm_targetTable");
+		var targetRecordSysID = (target_record_sys_id) ? target_record_sys_id : this.getProperty("sysparm_targetRecordSysID");
+
+
+		var self = this;
+		var uploadedFiles = [];
+
+		if (!attachments || attachments.length === 0) {
+			return {
+				status: false,
+				message: "No attachments to upload"
+			};
+		}
+
+		var vectorStoreSysID = null;
+		var grVS = new GlideRecord("x_edpet_open_ai_vector_store");
+		if (grVS.get("source_id", vector_store_id)) {
+			vectorStoreSysID = grVS.getValue("sys_id");
+		}
+
+		attachments.forEach(function (att) {
+			var response = self.uploadFile(att);
+			if(response.status === true && response.response && response.response.id) {
+				uploadedFiles.push({ id: response.response.id, attachmentSysID: att });
+			}else{
+				gs.addErrorMessage("uploadMultipleFiles: Failed to upload attachment " + att);
+			}
+		});
+
+		if (uploadedFiles.length > 0 && vectorStoreSysID) {
+			var uploadedFileIDs = uploadedFiles.map(function (file) {
+				return file.id;
+			});
+			var batchRes = self.createVectorStoreFileBatch(vector_store_id, uploadedFileIDs);
+			if (batchRes.success) {
+				uploadedFiles.forEach(function (file) {
+					var gr = new GlideRecord('x_edpet_open_ai_file');
+					gr.initialize();
+					gr.setValue('id', file.id);
+					gr.setValue('vector_store', vectorStoreSysID);
+					gr.setValue('attachment', file.attachmentSysID);
+					gr.setValue('target_table', targetTable);
+					gr.setValue('target_record', targetRecordSysID);
+					gr.insert();
+				});
+				return {
+					status: true,
+					body: uploadedFileIDs
+				};
+			} else {
+				return {
+					status: false,
+					message: "createVectorStoreFileBatch failed"
+				};
+			}
+		} else {
+			return {
+				status: false,
+				message: "Attachments exist on the Vectore Store OR vector_store_id not provided"
 			};
 		}
 	},
@@ -170,12 +369,12 @@ OpenAIUtility.prototype = Object.extendsObject(global.AbstractAjaxProcessor, {
 		var responseBody = JSON.parse(response.getBody());
 		var httpStatus = response.getStatusCode();
 
-		if (httpStatus >= 200 && httpStatus < 300){
+		if (httpStatus >= 200 && httpStatus < 300) {
 			return {
 				success: true,
 				body: responseBody
 			};
-		}else{
+		} else {
 			return {
 				success: false,
 				httpStatus: httpStatus,
@@ -471,13 +670,13 @@ OpenAIUtility.prototype = Object.extendsObject(global.AbstractAjaxProcessor, {
         <sys_created_by>yohanes.yilma@einar.partners</sys_created_by>
         <sys_created_on>2024-11-30 16:59:24</sys_created_on>
         <sys_id>83054b73e9ce5a10c7d7eb2eeb8c98f3</sys_id>
-        <sys_mod_count>301</sys_mod_count>
+        <sys_mod_count>362</sys_mod_count>
         <sys_name>OpenAIUtility</sys_name>
         <sys_package display_value="Open AI" source="x_edpet_open_ai">01a6e6fee9ca9210c7d7eb2eeb8c98ea</sys_package>
         <sys_policy/>
         <sys_scope display_value="Open AI">01a6e6fee9ca9210c7d7eb2eeb8c98ea</sys_scope>
         <sys_update_name>sys_script_include_83054b73e9ce5a10c7d7eb2eeb8c98f3</sys_update_name>
         <sys_updated_by>yohanes.yilma</sys_updated_by>
-        <sys_updated_on>2025-10-11 11:40:10</sys_updated_on>
+        <sys_updated_on>2025-10-12 14:09:48</sys_updated_on>
     </sys_script_include>
 </record_update>
